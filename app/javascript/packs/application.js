@@ -4,11 +4,6 @@ import ReactDOM from 'react-dom';
 import 'font-awesome/css/font-awesome.css';
 import '../styles/application.scss';
 
-if (!window.Intl) {
-  require('intl');
-  require('intl/locale-data/jsonp/en.js');
-}
-
 window.jQuery = window.$ = require('jquery');
 window.Perf = require('react-addons-perf');
 
@@ -21,9 +16,29 @@ if (customContext.keys().indexOf('./custom.scss') !== -1) {
   customContext('./custom.scss');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const mountNode = document.getElementById('mastodon');
-  const props = JSON.parse(mountNode.getAttribute('data-props'));
+function onReady(callback) {
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    callback();
+  } else {
+    document.addEventListener('DOMContentLoaded', callback);
+  }
+}
 
-  ReactDOM.render(<Mastodon {...props} />, mountNode);
-});
+function setupMastodon() {
+  onReady(() => {
+    const mountNode = document.getElementById('mastodon');
+    const props = JSON.parse(mountNode.getAttribute('data-props'));
+
+    ReactDOM.render(<Mastodon {...props} />, mountNode);
+  });
+}
+
+if (!window.Intl || !Number.isNaN) {
+  require.ensure([
+    'intl',
+    'intl/locale-data/jsonp/en.js',
+    'number.isnan'],
+    setupMastodon, 'polyfills');
+} else {
+  setupMastodon();
+}
