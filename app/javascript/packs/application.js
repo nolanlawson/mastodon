@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'font-awesome/css/font-awesome.css';
 import '../styles/application.scss';
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
 if (!window.Intl) {
   require('intl');
@@ -20,6 +21,8 @@ const customContext = require.context('../../assets/stylesheets/', false);
 if (customContext.keys().indexOf('./custom.scss') !== -1) {
   customContext('./custom.scss');
 }
+
+OfflinePluginRuntime.install();
 
 document.addEventListener('DOMContentLoaded', () => {
   const mountNode = document.getElementById('mastodon');

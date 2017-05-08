@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170507141759) do
+ActiveRecord::Schema.define(version: 20180428000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,14 @@ ActiveRecord::Schema.define(version: 20170507141759) do
     t.index "lower((username)::text), lower((domain)::text)", name: "index_accounts_on_username_and_domain_lower", using: :btree
     t.index ["url"], name: "index_accounts_on_url", using: :btree
     t.index ["username", "domain"], name: "index_accounts_on_username_and_domain", unique: true, using: :btree
+  end
+
+  create_table "block_mutes", force: :cascade do |t|
+    t.integer  "account_id",        null: false
+    t.integer  "target_account_id", null: false
+    t.boolean  "block",             null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "blocks", force: :cascade do |t|
