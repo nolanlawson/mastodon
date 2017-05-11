@@ -19,6 +19,7 @@
       = title
 
     = stylesheet_pack_tag 'application', media: 'all'
+    = render 'partials/promise_polyfill'
     = javascript_pack_tag 'common', integrity: true, crossorigin: 'anonymous'
     = csrf_meta_tags
 
