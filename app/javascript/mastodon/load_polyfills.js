@@ -1,6 +1,6 @@
 function needsPolyfills() {
   return !window.Intl || !window.Promise || !Object.assign ||
-    !Number.isNaN || !Array.prototype.includes;
+    !Number.isNaN || !window.Symbol || !Array.prototype.includes;
 }
 
 function loadPolyfills() {
