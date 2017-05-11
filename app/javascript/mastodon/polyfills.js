@@ -1,7 +1,7 @@
 import 'intl';
 import 'intl/locale-data/jsonp/en.js';
-import 'lie/polyfill'; // Promise
 import 'es6-symbol/implement';
+import 'lie/polyfill'; // Promise
 import includes from 'array-includes';
 import assign from 'object-assign';
 import isNaN from 'is-nan';
