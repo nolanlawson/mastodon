@@ -1,22 +1,32 @@
-import Mastodon from 'mastodon/containers/mastodon';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Rails from 'rails-ujs';
-import 'font-awesome/css/font-awesome.css';
-import '../styles/application.scss';
+require('font-awesome/css/font-awesome.css');
+require('../styles/application.scss');
 
-window.Perf = require('react-addons-perf');
+function onDomContentLoaded(callback) {
+  if (document.readyState !== 'loading') {
+    callback();
+  } else {
+    document.addEventListener('DOMContentLoaded', callback);
+  }
+}
 
-Rails.start();
+function main() {
+  const Mastodon = require('mastodon/containers/mastodon').default;
+  const React = require('react');
+  const ReactDOM = require('react-dom');
+  const Rails = require('rails-ujs');
+  window.Perf = require('react-addons-perf');
 
-require.context('../images/', true);
-require.context('../../assets/stylesheets/', false, /custom.*\.scss$/);
+  Rails.start();
 
-document.addEventListener('DOMContentLoaded', () => {
-  const mountNode = document.getElementById('mastodon');
-  const props = JSON.parse(mountNode.getAttribute('data-props'));
+  require.context('../images/', true);
+  require.context('../../assets/stylesheets/', false, /custom.*\.scss$/);
 
-  ReactDOM.render(<Mastodon {...props} />, mountNode);
-});
+  onDomContentLoaded(() => {
+    const mountNode = document.getElementById('mastodon');
+    const props = JSON.parse(mountNode.getAttribute('data-props'));
+
+    ReactDOM.render(<Mastodon {...props} />, mountNode);
+  });
+}
 
 export default main

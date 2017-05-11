@@ -1,16 +1,18 @@
-function needsPolyfills() {
-  return !window.Intl || !window.Promise || !Object.assign ||
-    !Array.prototype.includes;
+import 'intl';
+import 'intl/locale-data/jsonp/en.js';
+import 'lie/polyfill'; // Promise
+import includes from 'array-includes';
+import assign from 'object-assign';
+import isNaN from 'is-nan';
+
+if (!Array.prototype.includes) {
+  includes.shim();
 }
 
-function loadPolyfills() {
-  return Promise.all([
-    import('intl'),
-    import('intl/local-data/jsonp/en.js')
-  ]);
+if (!Object.assign) {
+  Object.assign = assign;
 }
 
-export {
-  needsPolyfills,
-  loadPolyfills
+if (!Number.isNaN) {
+  Number.isNaN = isNaN;
 }
