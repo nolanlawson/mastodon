@@ -5,7 +5,12 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const CompressionPlugin = require('compression-webpack-plugin')
+const OfflinePlugin = require('offline-plugin')
 const sharedConfig = require('./shared.js')
+const { publicPath } = require('./configuration.js')
+const fs = require('fs')
+const path = require('path')
+const emojiFiles = fs.readdirSync(path.join(__dirname, '../../public/emoji'))
 
 module.exports = merge(sharedConfig, {
 
@@ -28,6 +33,34 @@ module.exports = merge(sharedConfig, {
       asset: '[path].gz[query]',
       algorithm: 'gzip',
       test: /\.(js|css|svg|eot|ttf|woff|woff2)$/
+    }),
+    new OfflinePlugin({
+      publicPath: publicPath,
+      // these resouces are fetched ahead of time
+      externals: [
+        '/web/timelines/home',
+        '/web/getting-started',
+      ].concat(emojiFiles.map(filename => `/emoji/${filename}`)),
+      caches: {
+        main: [':rest:'],
+        // these are precached in addition to webpack assets
+        additional: [
+          '/web/timelines/home',
+          '/web/getting-started'
+        ],
+        // "optional" means these are only cached when actually fetched
+        // :externals: means all externals minus the "additional" ones
+        optional: [':externals:']
+      },
+      // sw.js must be served from the root to avoid scope issues
+      ServiceWorker: {
+        output: '../sw.js',
+        publicPath: '/sw.js',
+        // credentials (cookies) are required to access HTML files
+        prefetchRequest: {
+          credentials: 'include'
+        }
+      }
     })
   ]
 })
