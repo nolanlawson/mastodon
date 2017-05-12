@@ -24,6 +24,12 @@ function main() {
   // import customization styles
   require.context('../../assets/stylesheets/', false, /custom.*\.scss$/);
 
+  if (process.env.NODE_ENV === 'production') {
+    // avoid offline in dev mode because it's harder to debug
+    const OfflinePluginRuntime = require('offline-plugin/runtime');
+    OfflinePluginRuntime.install();
+  }
+
   onDomContentLoaded(() => {
     const mountNode = document.getElementById('mastodon');
     const props = JSON.parse(mountNode.getAttribute('data-props'));
