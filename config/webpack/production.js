@@ -32,7 +32,11 @@ module.exports = merge(sharedConfig, {
       test: /\.(js|css|svg|eot|ttf|woff|woff2)$/
     }),
     new OfflinePlugin({
-      publicPath: publicPath,
+      publicPath: /^https?:\/\//.test(publicPath) ? publicPath : `http://${publicPath}`,
+      externals: [
+        '/web/home',
+        '/web/getting-started'
+      ],
       ServiceWorker: {
         output: '../sw.js',
         publicPath: '/sw.js'
