@@ -14,12 +14,16 @@ function main() {
   const React = require('react');
   const ReactDOM = require('react-dom');
   const Rails = require('rails-ujs');
+  const OfflinePluginRuntime = require('offline-plugin/runtime');
+
   window.Perf = require('react-addons-perf');
 
   Rails.start();
 
   require.context('../images/', true);
   require.context('../../assets/stylesheets/', false, /custom.*\.scss$/);
+
+  OfflinePluginRuntime.install();
 
   onDomContentLoaded(() => {
     const mountNode = document.getElementById('mastodon');
