@@ -34,7 +34,7 @@ module.exports = merge(sharedConfig, {
     new OfflinePlugin({
       publicPath: publicPath,
       /*externals: [
-        '/web/home',
+        '/web/timelines/home',
         '/web/getting-started'
       ],*/
       ServiceWorker: {
