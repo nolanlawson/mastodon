@@ -5,6 +5,8 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const CompressionPlugin = require('compression-webpack-plugin')
+const OfflinePlugin = require('offline-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const sharedConfig = require('./shared.js')
 
 module.exports = merge(sharedConfig, {
@@ -28,6 +30,16 @@ module.exports = merge(sharedConfig, {
       asset: '[path].gz[query]',
       algorithm: 'gzip',
       test: /\.(js|css|svg|eot|ttf|woff|woff2)$/
+    }),
+    new OfflinePlugin({
+      ServiceWorker: {
+        scope: '/'
+      }
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      generateStatsFile: true,
+      openAnalyzer: false
     })
   ]
 })

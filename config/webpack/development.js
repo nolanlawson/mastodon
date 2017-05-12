@@ -2,7 +2,6 @@
 
 const merge = require('webpack-merge')
 const sharedConfig = require('./shared.js')
-const OfflinePlugin = require('offline-plugin')
 
 module.exports = merge(sharedConfig, {
   devtool: 'source-map',
@@ -13,12 +12,5 @@ module.exports = merge(sharedConfig, {
 
   output: {
     pathinfo: true
-  },
-  plugins: [
-    new OfflinePlugin({
-      ServiceWorker: {
-        scope: '/'
-      }
-    })
-  ]
+  }
 })
