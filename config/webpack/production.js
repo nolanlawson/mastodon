@@ -6,8 +6,8 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const CompressionPlugin = require('compression-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const sharedConfig = require('./shared.js')
+const { publicPath } = require('./configuration.js')
 
 module.exports = merge(sharedConfig, {
 
@@ -33,13 +33,9 @@ module.exports = merge(sharedConfig, {
     }),
     new OfflinePlugin({
       ServiceWorker: {
-        scope: '/'
+        output: '../sw.js',
+        publicPath: publicPath
       }
-    }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      generateStatsFile: true,
-      openAnalyzer: false
     })
   ]
 })

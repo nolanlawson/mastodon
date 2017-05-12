@@ -44,6 +44,7 @@ redis
 *~
 *.swp
 /public/packs
+/public/sw.js
 /node_modules
 
 
