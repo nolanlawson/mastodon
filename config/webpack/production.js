@@ -48,12 +48,15 @@ module.exports = merge(sharedConfig, {
     }),
     new OfflinePlugin({
       publicPath: publicPath, // sw.js must be served from the root to avoid scope issues
-      caches: { }, // do not cache things, we only use it for push notifications for now
       ServiceWorker: {
         entry: path.join(__dirname, '../../app/javascript/mastodon/service_worker/entry.js'),
         cacheName: 'mastodon',
         output: '../assets/sw.js',
         publicPath: '/sw.js',
+        // credentials (cookies) are required to access HTML files
+        prefetchRequest: {
+          credentials: 'include',
+        },
         minify: true,
       },
     }),
