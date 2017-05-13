@@ -10,7 +10,14 @@ const sharedConfig = require('./shared.js')
 const { publicPath } = require('./configuration.js')
 const fs = require('fs')
 const path = require('path')
-const emojiFiles = fs.readdirSync(path.join(__dirname, '../../public/emoji'))
+
+// Extract cache name and version from package.json
+const name = require(path.join(__dirname, '../../package.json')).name
+const version = require(path.join(__dirname, '../../package.json')).version
+
+let emojiFiles = fs.readdirSync(path.join(__dirname, '../../public/emoji'))
+emojiFiles = emojiFiles.filter(filename => filename.endsWith('.svg')) // Cache only svg emojis
+emojiFiles = emojiFiles.map(filename => `/emoji/${filename}`)
 
 module.exports = merge(sharedConfig, {
 
@@ -35,12 +42,15 @@ module.exports = merge(sharedConfig, {
       test: /\.(js|css|svg|eot|ttf|woff|woff2)$/
     }),
     new OfflinePlugin({
+      version,
       publicPath: publicPath,
       // these resouces are fetched ahead of time
       externals: [
         '/web/timelines/home',
         '/web/getting-started',
-      ].concat(emojiFiles.map(filename => `/emoji/${filename}`)),
+        '/avatars/original/missing.png',
+        ...emojiFiles
+      ],
       caches: {
         main: [':rest:'],
         // these are precached in addition to webpack assets
@@ -54,8 +64,10 @@ module.exports = merge(sharedConfig, {
       },
       // sw.js must be served from the root to avoid scope issues
       ServiceWorker: {
+        cacheName: name,
         output: '../sw.js',
         publicPath: '/sw.js',
+        excludes: ['**/*.gz'],
         // credentials (cookies) are required to access HTML files
         prefetchRequest: {
           credentials: 'include'
