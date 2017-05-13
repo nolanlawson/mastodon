@@ -14,7 +14,6 @@ function main() {
   const React = require('react');
   const ReactDOM = require('react-dom');
   const Rails = require('rails-ujs');
-  const OfflinePluginRuntime = require('offline-plugin/runtime');
 
   window.Perf = require('react-addons-perf');
 
@@ -23,7 +22,11 @@ function main() {
   require.context('../images/', true);
   require.context('../../assets/stylesheets/', false, /custom.*\.scss$/);
 
-  OfflinePluginRuntime.install();
+  if (process.env.NODE_ENV === 'production') {
+    // avoid offline in dev mode because it's harder to debug
+    const OfflinePluginRuntime = require('offline-plugin/runtime');
+    OfflinePluginRuntime.install();
+  }
 
   onDomContentLoaded(() => {
     const mountNode = document.getElementById('mastodon');
