@@ -16,7 +16,7 @@ module.exports = merge(sharedConfig, {
   output: { filename: '[name]-[chunkhash].js' },
 
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
+    /*new webpack.optimize.UglifyJsPlugin({
       compress: true,
       mangle: true,
 
@@ -30,16 +30,19 @@ module.exports = merge(sharedConfig, {
       asset: '[path].gz[query]',
       algorithm: 'gzip',
       test: /\.(js|css|svg|eot|ttf|woff|woff2)$/
-    }),
+    }),*/
     new OfflinePlugin({
       publicPath: publicPath,
-      /*externals: [
+      externals: [
         '/web/timelines/home',
         '/web/getting-started'
-      ],*/
+      ],
       ServiceWorker: {
         output: '../sw.js',
-        publicPath: '/sw.js'
+        publicPath: '/sw.js',
+        prefetchRequest: {
+          credentials: 'include'
+        }
       }
     })
   ]
