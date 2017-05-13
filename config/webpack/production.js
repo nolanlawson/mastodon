@@ -33,13 +33,22 @@ module.exports = merge(sharedConfig, {
     }),*/
     new OfflinePlugin({
       publicPath: publicPath,
+      // these resouces are fetched ahead of time
       externals: [
         '/web/timelines/home',
         '/web/getting-started'
       ],
+      caches: {
+        main: [':rest:'],
+        additional: [':externals:'],
+        // "optional" means these are only cached when actually fetched
+        optional: ['/emoji/*.svg']
+      },
+      // sw.js must be served from the root to avoid scope issues
       ServiceWorker: {
         output: '../sw.js',
         publicPath: '/sw.js',
+        // credentials (cookies) are required to access HTML files
         prefetchRequest: {
           credentials: 'include'
         }
