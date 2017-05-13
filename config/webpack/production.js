@@ -48,6 +48,7 @@ module.exports = merge(sharedConfig, {
       externals: [
         '/web/timelines/home',
         '/web/getting-started',
+        '/avatars/original/missing.png',
         ...emojiFiles
       ],
       caches: {
