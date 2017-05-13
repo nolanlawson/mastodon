@@ -16,7 +16,7 @@ module.exports = merge(sharedConfig, {
   output: { filename: '[name]-[chunkhash].js' },
 
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
+    /*new webpack.optimize.UglifyJsPlugin({
       compress: true,
       mangle: true,
 
@@ -30,14 +30,24 @@ module.exports = merge(sharedConfig, {
       asset: '[path].gz[query]',
       algorithm: 'gzip',
       test: /\.(js|css|svg|eot|ttf|woff|woff2)$/
-    }),
+    }),*/
     new OfflinePlugin({
       publicPath: publicPath,
       // these resouces are fetched ahead of time
       externals: [
         '/web/timelines/home',
-        '/web/getting-started'
+        '/web/getting-started',
+        '/emoji/*.svg'
       ],
+      caches: {
+        main: [':rest:'],
+        additional: [
+          '/web/timelines/home',
+          '/web/getting-started'
+        ],
+        // "optional" means these are only cached when actually fetched
+        optional: [':externals:']
+      },
       // sw.js must be served from the root to avoid scope issues
       ServiceWorker: {
         output: '../sw.js',
@@ -45,8 +55,7 @@ module.exports = merge(sharedConfig, {
         // credentials (cookies) are required to access HTML files
         prefetchRequest: {
           credentials: 'include'
-        },
-        minify: false // can't get sourcemaps to work; need to be able to debug
+        }
       }
     })
   ]
