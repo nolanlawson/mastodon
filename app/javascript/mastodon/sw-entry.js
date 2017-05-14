@@ -3,13 +3,14 @@
 
 const CACHE_KEY = 'mastodon-sw';
 
-const webUrls = [
+const precacheUrls = [
   '/web/getting-started',
   '/web/timelines/home'
 ];
 
-const signOutRegex = /\/auth\/sign_out$/;
-const emojiRegex = '/emoji\/(^\.)\.(png|svg)$'
+//const webRegex = /^\/web\//
+const signOutRegex = /^\/auth\/sign_out/;
+const emojiRegex = /^\/emoji\//
 
 function getCache() {
   return caches.open(CACHE_KEY);
@@ -17,7 +18,7 @@ function getCache() {
 
 self.addEventListener('install', event => {
   event.waitUntil(getCache().then(cache => {
-    return cache.addAll(webUrls);
+    return cache.addAll(precacheUrls);
   }));
 });
 
@@ -28,11 +29,12 @@ self.addEventListener('fetch', event => {
     // csrf-token (whereas everything else is static, no harm in caching)
     getCache().then(cache => {
       webUrls.forEach(webUrl => {
-        const fullUrl = new URL(url.toString().replace(signOutRegex, webUrl));
+        const fullUrl = new URL(url.toString())
+        newUrl.pathname = webUrl;
         cache.delete(fullUrl);
       });
     });
-  } else if (method === 'GET' && emojiRegex.test(url)) {
+  } else if (method === 'GET' && emojiRegex.test(url.pathname)) {
     event.respondWith(
       caches.match(event.request).then(r => r || fetch(event.request))
     );
