@@ -8,22 +8,37 @@ const precacheUrls = [
   '/web/timelines/home'
 ];
 
-//const webRegex = /^\/web\//
+const webRegex = /^\/web\//
 const signOutRegex = /^\/auth\/sign_out/;
 const emojiRegex = /^\/emoji\//
-
-const fetchOptions = {
-  credentials: 'include'
-};
 
 function getCache() {
   return caches.open(CACHE_KEY);
 }
 
+// "offline-first" strategy - try to fetch from the cache, then fall
+// back to the network, then cache afterwards
+function tryCacheThenFetch(request) {
+  return getCache().then(cache => {
+    return cache.match(request).then(cacheResponse => {
+      if (cacheResponse) {
+        return cacheResponse;
+      }
+      return fetch(request).then(fetchResponse => {
+        // cache as a side effect, not meant to block response
+        cache.put(request.clone(), fetchResponse.clone());
+        return fetchResponse.clone();
+      });
+    });
+  })
+}
+
 self.addEventListener('install', event => {
   event.waitUntil(getCache().then(function (cache) {
     return Promise.all(precacheUrls.map(url => {
-      return fetch(url, fetchOptions).then(response => {
+      return fetch(url, {
+        credentials: 'include'
+      }).then(response => {
         return cache.put(new Request(response.url), response);
       });
     }));
@@ -32,30 +47,22 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', event => {
   const { url, method } = event.request;
-  if (method === 'POST' && signOutRegex.test(url)) {
+  const urlObject = new URL(url);
+  const path = urlObject.pathname;
+  if (method === 'POST' && signOutRegex.test(path)) {
     // on sign out, clear any /web paths because we need to update the
     // csrf-token (whereas everything else is static, no harm in caching)
     getCache().then(cache => {
-      webUrls.forEach(webUrl => {
-        const fullUrl = new URL(url.toString())
-        newUrl.pathname = webUrl;
-        cache.delete(fullUrl);
+      cache.keys().then(keys => {
+        keys.forEach(request => {
+          if (webRegex.test(new URL(request.url).pathname)) {
+            cache.delete(request);
+          }
+        });
       });
     });
-  } else if (method === 'GET' && emojiRegex.test(new URL(url).pathname)) {
-    event.respondWith(
-      getCache().then(cache => {
-        return cache.match(event.request).then(cacheResponse => {
-          if (cacheResponse) {
-            return cacheResponse;
-          }
-          return fetch(event.request, fetchOptions).then(fetchResponse => {
-            // cache as a side effect, not meant to block response
-            cache.put(event.request, fetchResponse);
-            return fetchResponse;
-          });
-        });
-      })
-    );
+  } else if (method === 'GET' &&
+      (emojiRegex.test(path) || webRegex.test(path))) {
+    event.respondWith(tryCacheThenFetch(event.request));
   }
 });
