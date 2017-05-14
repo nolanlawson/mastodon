@@ -35,7 +35,6 @@ module.exports = merge(sharedConfig, {
       test: /\.(js|css|svg|eot|ttf|woff|woff2)$/
     }),*/
     new OfflinePlugin({
-      entry: 'app/javascript/mastodon/sw.js',
       publicPath: publicPath,
       // these resources are fetched ahead of time
       externals: [
