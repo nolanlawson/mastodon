@@ -4,6 +4,9 @@
 const VERSION = '1.0.0'; // if necessary, we can increment this
 const CACHE_KEY = `mastodon-sw-v${VERSION}`;
 
+// taken from https://github.com/GoogleChrome/sw-toolbox/blob/master/lib/options.js
+const SUCCESS_RESPONSES = /^0|([123]\d\d)|(40[14567])|410$/
+
 const fetchListeners = [];
 
 function openCache() {
@@ -32,6 +35,40 @@ function cacheFirst(method, regex) {
             // cache as a side effect, not meant to block response
             cache.put(request.clone(), fetchResponse.clone());
             return fetchResponse;
+          });
+        });
+      }));
+    }
+  );
+}
+
+// "offline-last" strategy – go to the network first, then try the
+// cache if the network fails
+function networkFirst(method, regex) {
+  onRequest(
+    method,
+    regex,
+    event => {
+      const request = event.request;
+      event.respondWith(fetch(request).then(fetchResponse => {
+        if (!SUCCESS_RESPONSES.test(fetchResponse.status)) {
+          throw new Error(`Bad response: ${fetchResponse.status}`);
+        }
+
+        // cache the response as a side effect, don't block
+        openCache().then(cache => {
+          cache.put(request.clone(), fetchResponse.clone());
+        });
+
+        return fetchResponse
+      }).catch(fetchError => {
+        // fetch() error, falling back to cache
+        return openCache().then(cache => {
+          return cache.match(request).then(cacheResponse => {
+            if (cacheResponse) {
+              return cacheResponse;
+            }
+            throw fetchError;
           });
         });
       }));
@@ -79,12 +116,24 @@ function precache(urls) {
 }
 
 // delete everything in the cache matching a particular regex
-function deleteAllFromCacheMatching(regex) {
+// or array of regexes
+function deleteAllFromCacheMatching(regexOrArrayOfRegexes) {
+
+  const isArray = Array.isArray(regexOrArrayOfRegexes);
+
+  function test(path) {
+    if (isArray) {
+      return regexOrArrayOfRegexes.some(regex => regex.test(path)).length;
+    } else {
+      return regexOrArrayOfRegexes.test(path);
+    }
+  }
+
   return openCache().then(cache => {
     return cache.keys().then(keys => {
       /* eslint-disable consistent-return */
       return Promise.all(keys.map(request => {
-        if (regex.test(new URL(request.url).pathname)) {
+        if (test(new URL(request.url).pathname)) {
           return cache.delete(request);
         }
       }));
@@ -108,6 +157,7 @@ self.addEventListener('fetch', event => {
 export {
   cacheFirst,
   cacheFirstAndUpdateAfter,
+  networkFirst,
   onRequest,
   precache,
   deleteAllFromCacheMatching
