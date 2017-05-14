@@ -84,16 +84,16 @@ function cacheFirstAndUpdateAfter(method, regex) {
     regex,
     event => {
       const request = event.request;
-      // do network request and then cache as a side effect,
-      // don't block the response
+
+      // start fetching immediately
       const fetchPromise = fetch(request);
-      openCache().then(cache => {
+
+      event.respondWith(openCache().then(cache => {
+        // cache as a side effect, don't block the response
         fetchPromise.then(fetchResponse => {
           cache.put(request.clone(), fetchResponse.clone());
         });
-      });
 
-      event.respondWith(openCache().then(cache => {
         return cache.match(request);
       }).then(cacheResponse => {
         return cacheResponse || fetchPromise;
