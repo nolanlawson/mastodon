@@ -97,7 +97,7 @@ self.addEventListener('fetch', event => {
   const urlObject = new URL(url);
   const path = urlObject.pathname;
 
-  for (let listener of listeners) {
+  for (let listener of fetchListeners) {
     if (listener.method === method && listener.regex.test(path)) {
       listener.invoke(event.request);
       break;
