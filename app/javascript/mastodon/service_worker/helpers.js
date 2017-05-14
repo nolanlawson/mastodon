@@ -99,7 +99,7 @@ self.addEventListener('fetch', event => {
 
   for (let listener of fetchListeners) {
     if (listener.method === method && listener.regex.test(path)) {
-      listener.invoke(event.request);
+      listener.invoke(event);
       break;
     }
   }
