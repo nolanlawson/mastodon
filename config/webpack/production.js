@@ -54,13 +54,15 @@ module.exports = merge(sharedConfig, {
       },
       // sw.js must be served from the root to avoid scope issues
       ServiceWorker: {
+        entry: path.join(__dirname, '../../app/javascript/mastodon/sw-entry.js'),
         output: '../sw.js',
         publicPath: '/sw.js',
         // credentials (cookies) are required to access HTML files
         prefetchRequest: {
           credentials: 'include'
         }
-      }
+      },
+      AppCache: false
     })
   ]
 })
