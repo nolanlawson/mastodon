@@ -36,22 +36,6 @@ module.exports = merge(sharedConfig, {
     }),*/
     new OfflinePlugin({
       publicPath: publicPath,
-      // these resources are fetched ahead of time
-      externals: [
-        '/web/timelines/home',
-        '/web/getting-started',
-      ].concat(emojiFiles.map(filename => `/emoji/${filename}`)),
-      caches: {
-        main: [':rest:'],
-        // these are precached in addition to webpack assets
-        additional: [
-          '/web/timelines/home',
-          '/web/getting-started'
-        ],
-        // "optional" means these are only cached when actually fetched
-        // :externals: means all externals minus the "additional" ones
-        optional: [':externals:']
-      },
       // sw.js must be served from the root to avoid scope issues
       ServiceWorker: {
         entry: path.join(__dirname, '../../app/javascript/mastodon/sw-entry.js'),
@@ -60,10 +44,8 @@ module.exports = merge(sharedConfig, {
         // credentials (cookies) are required to access HTML files
         prefetchRequest: {
           credentials: 'include'
-        },
-        cacheName: 'mastodon-offline'
-      },
-      AppCache: false
+        }
+      }
     })
   ]
 })
