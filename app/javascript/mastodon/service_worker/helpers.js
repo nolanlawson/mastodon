@@ -117,26 +117,20 @@ function precache(urls) {
   });
 }
 
-// delete everything in the cache matching a particular regex
-// or array of regexes
-function deleteAllFromCacheMatching(regexOrArrayOfRegexes) {
+// delete everything in the cache matching a particular path or paths
+// (string or array of strings)
+function deleteAllFromCacheMatching(paths) {
 
-  const isArray = Array.isArray(regexOrArrayOfRegexes);
-
-  function test(path) {
-    if (isArray) {
-      return regexOrArrayOfRegexes.some(regex => regex.test(path)).length;
-    } else {
-      return regexOrArrayOfRegexes.test(path);
-    }
+  if (!Array.isArray(paths)) {
+    paths = [paths];
   }
 
   return openCache().then(cache => {
-    return cache.keys().then(keys => {
-      return Promise.all(keys
-        .filter(request => test(new URL(request.url).pathname))
-        .map(request => cache.delete(request)));
-    });
+    return Promise.all(paths.map(path => {
+      return cache.matchAll(path).then(responses => {
+        return Promise.all(responses.map(response => cache.delete(response)));
+      });
+    }));
   });
 }
 

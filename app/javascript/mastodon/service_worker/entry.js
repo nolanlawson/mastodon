@@ -18,7 +18,7 @@ const EMOJI_REGEX = /^\/emoji\//;
 const WEB_REGEX = /^\/web\//;
 const ABOUT_REGEX = /^\/about/;
 const SETTINGS_REGEX = /^\/settings\//
-const USER_SENSITIVE_DATA = [WEB_REGEX, ABOUT_REGEX, SETTINGS_REGEX];
+const USER_SENSITIVE_DATA = ['/web', '/settings'];
 
 // precache these URLs so they're always guaranteed to work. one is the
 // default homepage for desktop, the other is the one for manifest.json
