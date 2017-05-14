@@ -60,7 +60,8 @@ module.exports = merge(sharedConfig, {
         // credentials (cookies) are required to access HTML files
         prefetchRequest: {
           credentials: 'include'
-        }
+        },
+        cacheName: 'mastodon-offline'
       },
       AppCache: false
     })
