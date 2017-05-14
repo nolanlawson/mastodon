@@ -87,8 +87,10 @@ function cacheFirstAndUpdateAfter(method, regex) {
       // do network request and then cache as a side effect,
       // don't block the response
       const fetchPromise = fetch(request);
-      fetchPromise.then(fetchResponse => {
-        cache.put(request.clone(), fetchResponse.clone());
+      openCache().then(cache => {
+        fetchPromise.then(fetchResponse => {
+          cache.put(request.clone(), fetchResponse.clone());
+        });
       });
 
       event.respondWith(openCache().then(cache => {
