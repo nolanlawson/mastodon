@@ -1,7 +1,7 @@
 // Various caching strategies to make entry.js easier to read. Partially
 // inspired by https://github.com/GoogleChrome/sw-toolbox
 
-const VERSION = '1'; // if necessary, we can increment this
+const VERSION = '1.0.0'; // if necessary, we can increment this
 const CACHE_KEY = `mastodon-sw-v${VERSION}`;
 
 const fetchListeners = [];
@@ -12,11 +12,7 @@ function openCache() {
 
 // generic request listener
 function onRequest(method, regex, invoke) {
-  fetchListeners.push({
-    method,
-    regex,
-    invoke
-  });
+  fetchListeners.push({ method, regex, invoke });
 }
 
 // "offline-first" strategy - try to fetch from the cache, then fall
@@ -85,7 +81,7 @@ function precache(urls) {
 // delete everything in the cache matching a particular regex
 function deleteAllFromCacheMatching(regex) {
   return openCache().then(cache => {
-    cache.keys().then(keys => {
+    return cache.keys().then(keys => {
       /* eslint-disable consistent-return */
       return Promise.all(keys.map(request => {
         if (regex.test(new URL(request.url).pathname)) {
