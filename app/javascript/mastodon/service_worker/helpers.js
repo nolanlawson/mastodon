@@ -57,10 +57,10 @@ function networkFirst(method, regex) {
 
         // cache the response as a side effect, don't block
         openCache().then(cache => {
-          cache.put(request.clone(), fetchResponse.clone());
+          cache.put(request.clone(), fetchResponse);
         });
 
-        return fetchResponse
+        return fetchResponse.clone();
       }).catch(fetchError => {
         // fetch() error, falling back to cache
         return openCache().then(cache => {
@@ -133,12 +133,9 @@ function deleteAllFromCacheMatching(regexOrArrayOfRegexes) {
 
   return openCache().then(cache => {
     return cache.keys().then(keys => {
-      /* eslint-disable consistent-return */
-      return Promise.all(keys.map(request => {
-        if (test(new URL(request.url).pathname)) {
-          return cache.delete(request);
-        }
-      }));
+      return Promise.all(keys
+        .filter(request => test(new URL(request.url).pathname))
+        .map(request => cache.delete(request)));
     });
   });
 }
