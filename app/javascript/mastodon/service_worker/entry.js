@@ -31,6 +31,13 @@ precache([
 // because the emoji versions are embedded as URL params
 cacheFirst('GET', EMOJI_REGEX);
 
+// TODO: saw this error:
+// In Chrome 59, the navigation to "https://malfunctioning.technology/about"
+// will result in a network error, because FetchEvent.respondWith() was called
+// with a redirected response. See https://crbug.com/658249. The url list of
+// the response was: ["https://malfunctioning.technology/web/timelines/home",
+// "https://malfunctioning.technology/about"]
+
 // these resources should be updated whenever possible, because they contain
 // CSRF tokens embedded in the HTML and may also be updated (e.g. when a
 // user becomes an admin, their "Preferences" page is updated to include
