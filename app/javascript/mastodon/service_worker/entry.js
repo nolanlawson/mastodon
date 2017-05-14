@@ -18,7 +18,7 @@ const EMOJI_REGEX = /^\/emoji\//;
 const WEB_REGEX = /^\/web\//;
 const ABOUT_REGEX = /^\/about/;
 const SETTINGS_REGEX = /^\/settings\//
-const USER_SENSITIVE_DATA_REGEX = [WEB_REGEX, ABOUT_REGEX, SETTINGS_REGEX];
+const USER_SENSITIVE_DATA = [WEB_REGEX, ABOUT_REGEX, SETTINGS_REGEX];
 
 // precache these URLs so they're always guaranteed to work. one is the
 // default homepage for desktop, the other is the one for manifest.json
@@ -45,5 +45,5 @@ networkFirst('GET', SETTINGS_REGEX);
 // on sign out, clear any /web paths because we need to update the
 // csrf-token (whereas everything else is static, no harm in caching)
 onRequest('POST', SIGN_OUT_REGEX, () => {
-  deleteAllFromCacheMatching(USER_SENSITIVE_DATA_REGEX);
+  deleteAllFromCacheMatching(USER_SENSITIVE_DATA);
 });
