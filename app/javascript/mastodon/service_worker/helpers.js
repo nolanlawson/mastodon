@@ -32,8 +32,10 @@ function cacheFirst(method, regex) {
             return cacheResponse;
           }
           return fetch(request).then(fetchResponse => {
-            // cache as a side effect, not meant to block response
-            cache.put(request.clone(), fetchResponse.clone());
+            if (SUCCESS_RESPONSES.test(fetchResponse.status)) {
+              // cache as a side effect, not meant to block response
+              cache.put(request.clone(), fetchResponse.clone());
+            }
             return fetchResponse;
           });
         });
@@ -91,7 +93,9 @@ function cacheFirstAndUpdateAfter(method, regex) {
       event.respondWith(openCache().then(cache => {
         // cache as a side effect, don't block the response
         fetchPromise.then(fetchResponse => {
-          cache.put(request.clone(), fetchResponse.clone());
+          if (SUCCESS_RESPONSES.test(fetchResponse.status)) {
+            cache.put(request.clone(), fetchResponse.clone());
+          }
         });
 
         return cache.match(request);
@@ -107,10 +111,13 @@ function precache(urls) {
   self.addEventListener('install', event => {
     event.waitUntil(openCache().then(function (cache) {
       return Promise.all(urls.map(url => {
+        /* eslint-disable consistent-return */
         return fetch(url, {
           credentials: 'include'
         }).then(response => {
-          return cache.put(new Request(response.url), response);
+          if (SUCCESS_RESPONSES.test(response.status)) {
+            return cache.put(new Request(response.url), response);
+          }
         });
       }));
     }));
