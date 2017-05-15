@@ -32,6 +32,7 @@ function cacheFirst(method, regex) {
             return cacheResponse;
           }
           // redirect: 'follow' is due to http://stackoverflow.com/a/40277730/680742
+          // see also: https://crbug.com/658249
           return fetch(request, {redirect: 'follow'}).then(fetchResponse => {
             if (SUCCESS_RESPONSES.test(fetchResponse.status)) {
               // cache as a side effect, not meant to block response
