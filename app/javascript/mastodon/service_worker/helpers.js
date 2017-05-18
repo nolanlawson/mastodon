@@ -1,8 +1,9 @@
 // Various caching strategies to make entry.js easier to read. Partially
 // inspired by https://github.com/GoogleChrome/sw-toolbox
 
-const VERSION = '1.0.0'; // if necessary, we can increment this
-const CACHE_KEY = `mastodon-sw-v${VERSION}`;
+const VERSION = '1.0.1'; // increment when this store should be cleared
+const CACHE_PREFIX = 'mastodon-sw';
+const CACHE_KEY = `${CACHE_PREFIX}-v${VERSION}`;
 
 // taken from https://github.com/GoogleChrome/sw-toolbox/blob/master/lib/options.js
 const SUCCESS_RESPONSES = /^0|([123]\d\d)|(40[14567])|410$/
@@ -16,6 +17,10 @@ function openCache() {
 // generic request listener
 function onRequest(method, regex, invoke) {
   fetchListeners.push({ method, regex, invoke });
+}
+
+function isCacheableFetchResponse(response) {
+  return !response.redirected && SUCCESS_RESPONSES.test(response.status);
 }
 
 // "offline-first" strategy - try to fetch from the cache, then fall
@@ -34,7 +39,7 @@ function cacheFirst(method, regex) {
           // redirect: 'follow' is due to http://stackoverflow.com/a/40277730/680742
           // see also: https://crbug.com/658249
           return fetch(request, {redirect: 'follow'}).then(fetchResponse => {
-            if (SUCCESS_RESPONSES.test(fetchResponse.status)) {
+            if (isCacheableFetchResponse(fetchResponse)) {
               // cache as a side effect, not meant to block response
               cache.put(request.clone(), fetchResponse.clone());
             }
@@ -60,9 +65,11 @@ function networkFirst(method, regex) {
         }
 
         // cache the response as a side effect, don't block
-        openCache().then(cache => {
-          cache.put(request.clone(), fetchResponse);
-        });
+        if (isCacheableFetchResponse(fetchResponse)) {
+          openCache().then(cache => {
+            cache.put(request.clone(), fetchResponse);
+          });
+        }
 
         return fetchResponse.clone();
       }).catch(fetchError => {
@@ -95,7 +102,7 @@ function cacheFirstAndUpdateAfter(method, regex) {
       event.respondWith(openCache().then(cache => {
         // cache as a side effect, don't block the response
         fetchPromise.then(fetchResponse => {
-          if (SUCCESS_RESPONSES.test(fetchResponse.status)) {
+          if (isCacheableFetchResponse(fetchResponse)) {
             cache.put(request.clone(), fetchResponse.clone());
           }
         });
@@ -118,7 +125,7 @@ function precache(urls) {
           credentials: 'include',
           redirect: 'follow'
         }).then(response => {
-          if (SUCCESS_RESPONSES.test(response.status)) {
+          if (isCacheableFetchResponse(response)) {
             return cache.put(new Request(response.url), response);
           }
         });
@@ -155,6 +162,19 @@ self.addEventListener('fetch', event => {
       break;
     }
   }
+});
+
+self.addEventListener('activate', function(event) {
+  /* eslint-disable consistent-return */
+  event.waitUntil(caches.keys().then(cacheNames => {
+    for (let cacheName of cacheNames) {
+      if (cacheName.indexOf(CACHE_PREFIX) === 0 &&
+          cacheName.indexOf(CACHE_KEY) !== 0) {
+        // remove obsolete caches added by previous versions
+        return caches.delete(cacheName);
+      }
+    }
+  }));
 });
 
 export {
