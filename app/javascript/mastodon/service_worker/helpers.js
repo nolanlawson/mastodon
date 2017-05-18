@@ -36,9 +36,7 @@ function cacheFirst(method, regex) {
           if (cacheResponse) {
             return cacheResponse;
           }
-          // redirect: 'follow' is due to http://stackoverflow.com/a/40277730/680742
-          // see also: https://crbug.com/658249
-          return fetch(request, {redirect: 'follow'}).then(fetchResponse => {
+          return fetch(request).then(fetchResponse => {
             if (isCacheableFetchResponse(fetchResponse)) {
               // cache as a side effect, not meant to block response
               cache.put(request.clone(), fetchResponse.clone());
@@ -59,7 +57,7 @@ function networkFirst(method, regex) {
     regex,
     event => {
       const request = event.request;
-      event.respondWith(fetch(request, {redirect: 'follow'}).then(fetchResponse => {
+      event.respondWith(fetch(request).then(fetchResponse => {
         if (!SUCCESS_RESPONSES.test(fetchResponse.status)) {
           throw new Error(`Bad response: ${fetchResponse.status}`);
         }
@@ -97,7 +95,7 @@ function cacheFirstAndUpdateAfter(method, regex) {
       const request = event.request;
 
       // start fetching immediately
-      const fetchPromise = fetch(request, {redirect: 'follow'});
+      const fetchPromise = fetch(request);
 
       event.respondWith(openCache().then(cache => {
         // cache as a side effect, don't block the response
@@ -121,6 +119,8 @@ function precache(urls) {
     event.waitUntil(openCache().then(function (cache) {
       return Promise.all(urls.map(url => {
         /* eslint-disable consistent-return */
+        // redirect: 'follow' is due to http://stackoverflow.com/a/40277730/680742
+        // see also: https://crbug.com/658249
         return fetch(url, {
           credentials: 'include',
           redirect: 'follow'
