@@ -1,18 +1,9 @@
 {
   "presets": [
-    "react",
-    [
-      "env",
-      {
-        "loose": true,
-        "modules": false,
-        "targets": {
-          "browsers": ["last 2 versions", "IE >= 11", "iOS >= 9"]
-        }
-      }
-    ]
+    "react"
   ],
   "plugins": [
+    "external-helpers",
     "syntax-dynamic-import",
     "transform-object-rest-spread",
     "transform-class-properties",

@@ -63,11 +63,8 @@ class EmojiPickerDropdown extends React.PureComponent {
     this.setState({active: true});
     if (!EmojiPicker) {
       this.setState({loading: true});
-      import('emojione-picker').then(TheEmojiPicker => {
+      require.ensure(['emojione-picker'], ([TheEmojiPicker]) => {
         EmojiPicker = TheEmojiPicker.default;
-        this.setState({loading: false});
-      }).catch(err => {
-        // TODO: show the user an error?
         this.setState({loading: false});
       });
     }
