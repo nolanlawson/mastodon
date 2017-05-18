@@ -32,7 +32,8 @@
     },
     "production": {
       "plugins": [
-        "lodash"
+        "lodash",
+        "external-helpers"
       ]
     },
     "test": {
