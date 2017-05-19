@@ -41,7 +41,9 @@ module.exports = {
     new ManifestPlugin({ fileName: paths.manifest, publicPath, writeToFileEmit: true }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
-      chunks: ['application', 'public'], // extract common modules only from these chunks
+      // extract common modules only from these chunks, 'en' is used but
+      // it could be any locale; the point is to extract locales/index.js
+      chunks: ['application', 'public', 'locale_en'],
       minChunks: 2
     })
   ],

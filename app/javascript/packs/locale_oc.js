@@ -1,3 +1,4 @@
 import messages from '../mastodon/locales/oc.json';
-import locale from '../mastodon/locales/locale-data/oc';
-window.__mastodonLocaleData = { messages, locale };
+import localeData from '../mastodon/locales/locale-data/oc';
+import { setLocale } from '../mastodon/locales';
+setLocale({messages, localeData});

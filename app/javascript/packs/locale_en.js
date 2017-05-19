@@ -1,3 +1,4 @@
 import messages from '../mastodon/locales/en.json';
-import locale from 'react-intl/locale-data/en';
-window.__mastodonLocaleData = { messages, locale };
+import localeData from 'react-intl/locale-data/en';
+import { setLocale } from '../mastodon/locales';
+setLocale({messages, localeData});
