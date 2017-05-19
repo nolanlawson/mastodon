@@ -41,6 +41,7 @@ module.exports = {
     new ManifestPlugin({ fileName: paths.manifest, publicPath, writeToFileEmit: true }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
+      chunks: ['application', 'public'], // extract common modules only from these chunks
       minChunks: 2
     })
   ],
