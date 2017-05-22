@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import StatusContainer from '../containers/status_container';
 import LoadMore from './load_more';
 import ImmutablePureComponent from 'react-immutable-pure-component';
+import { debounce } from 'lodash';
 
 class StatusList extends ImmutablePureComponent {
 
@@ -64,18 +65,29 @@ class StatusList extends ImmutablePureComponent {
   }
 
   attachIntersectionObserver () {
-    const onIntersection = (entries) => {
-      const isIntersecting = { };
 
-      entries.forEach(entry => {
-        const statusId = entry.target.getAttribute('data-id');
+    let entryLists = [];
 
-        isIntersecting[statusId] = entry.isIntersecting;
+    const updateState = debounce(() => {
+      const isIntersecting = {};
+      entryLists.forEach(entries => {
+        entries.forEach(entry => {
+          const statusId = entry.target.getAttribute('data-id');
+          isIntersecting[statusId] = entry.isIntersecting;
+        });
       });
-
       this.setState(state => ({
-        isIntersecting: Object.assign({ }, state.isIntersecting, isIntersecting),
+        isIntersecting: Object.assign({}, state.isIntersecting, isIntersecting),
       }));
+      entryLists = [];
+    }, 2000, {
+      leading: true,
+      trailing: true,
+    });
+
+    const onIntersection = (entries) => {
+      entryLists.push(entries);
+      updateState();
     };
 
     const options = {
