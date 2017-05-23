@@ -7,6 +7,7 @@ const merge = require('webpack-merge');
 const CompressionPlugin = require('compression-webpack-plugin');
 const sharedConfig = require('./shared.js');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ButternutWebpackPlugin = require('butternut-webpack-plugin').default;
 
 module.exports = merge(sharedConfig, {
 
@@ -15,20 +16,13 @@ module.exports = merge(sharedConfig, {
   output: { filename: '[name]-[chunkhash].js' },
 
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: true,
-      mangle: true,
-
-      output: {
-        comments: false,
-      },
-
-      sourceMap: true,
-    }),
     new CompressionPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',
       test: /\.(js|css|svg|eot|ttf|woff|woff2)$/,
+    }),
+    new ButternutWebpackPlugin({
+      check: true,
     }),
     new BundleAnalyzerPlugin({ // generates report.html and stats.json
       analyzerMode: 'static',

@@ -1413,6 +1413,23 @@ builtin-status-codes@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-2.0.0.tgz#6f22003baacf003ccd287afe6872151fddc58579"
 
+butternut-webpack-plugin@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/butternut-webpack-plugin/-/butternut-webpack-plugin-0.0.6.tgz#291a77c65affaf979cdef812ec40fe182afe1751"
+  dependencies:
+    butternut "^0.3.5"
+    webpack-sources "^0.2.3"
+
+butternut@^0.3.5:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/butternut/-/butternut-0.3.6.tgz#599030b3038140400e15b929e757b827d8a2da6f"
+  dependencies:
+    acorn "^5.0.3"
+    chalk "^1.1.3"
+    magic-string "^0.19.0"
+    minimist "^1.2.0"
+    sourcemap-codec "^1.3.1"
+
 bytes@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.3.0.tgz#d5b680a165b6201739acb611542aabc2d8ceb070"
@@ -4006,6 +4023,12 @@ macaddress@^0.2.8:
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/macaddress/-/macaddress-0.2.8.tgz#5904dc537c39ec6dbefeae902327135fa8511f12"
 
+magic-string@^0.19.0:
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.19.1.tgz#14d768013caf2ec8fdea16a49af82fc377e75201"
+  dependencies:
+    vlq "^0.2.1"
+
 mantra-core@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/mantra-core/-/mantra-core-1.7.0.tgz#a8c83e8cee83ef6a7383131519fe8031ad546386"
@@ -6196,6 +6219,12 @@ source-map@~0.4.1:
   dependencies:
     amdefine ">=0.0.4"
 
+sourcemap-codec@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.3.1.tgz#9ad6f9bdbd691931016e30939dbc868673323146"
+  dependencies:
+    vlq "^0.2.1"
+
 spdx-correct@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-1.0.2.tgz#4b3073d933ff51f3912f03ac5519498a4150db40"
@@ -6722,6 +6751,10 @@ verror@1.3.6:
   resolved "https://registry.yarnpkg.com/verror/-/verror-1.3.6.tgz#cff5df12946d297d2baaefaa2689e25be01c005c"
   dependencies:
     extsprintf "1.0.2"
+
+vlq@^0.2.1:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/vlq/-/vlq-0.2.2.tgz#e316d5257b40b86bb43cb8d5fea5d7f54d6b0ca1"
 
 vm-browserify@0.0.4:
   version "0.0.4"
