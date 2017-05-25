@@ -77,7 +77,7 @@ class IconButton extends React.PureComponent {
             title={this.props.title}
             className={classes.join(' ')}
             onClick={this.handleClick}>
-          <i style={{ transform: `rotate(${rotate}deg)` }} className={`fa fa-fw fa-${this.props.icon}`} aria-hidden='true' />
+          <i className={`fa fa-fw fa-${this.props.icon} ${css({transform: `rotate(${rotate}deg)`})}`} aria-hidden='true' />
           </button>
         }
       </Motion>
