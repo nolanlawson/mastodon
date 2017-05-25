@@ -2,6 +2,7 @@ import React from 'react';
 import Motion from 'react-motion/lib/Motion';
 import spring from 'react-motion/lib/spring';
 import PropTypes from 'prop-types';
+import { css } from 'glamor';
 
 class IconButton extends React.PureComponent {
 
@@ -37,16 +38,16 @@ class IconButton extends React.PureComponent {
   }
 
   render () {
-    const style = {
+    const classes = ['icon-button'];
+
+    classes.push(css({
       fontSize: `${this.props.size}px`,
       width: `${this.props.size * 1.28571429}px`,
       height: `${this.props.size * 1.28571429}px`,
       lineHeight: `${this.props.size}px`,
       ...this.props.style,
       ...(this.props.active ? this.props.activeStyle : {}),
-    };
-
-    const classes = ['icon-button'];
+    }));
 
     if (this.props.active) {
       classes.push('active');
@@ -75,9 +76,8 @@ class IconButton extends React.PureComponent {
             aria-label={this.props.title}
             title={this.props.title}
             className={classes.join(' ')}
-            onClick={this.handleClick}
-            style={style}>
-            <i style={{ transform: `rotate(${rotate}deg)` }} className={`fa fa-fw fa-${this.props.icon}`} aria-hidden='true' />
+            onClick={this.handleClick}>
+          <i style={{ transform: `rotate(${rotate}deg)` }} className={`fa fa-fw fa-${this.props.icon}`} aria-hidden='true' />
           </button>
         }
       </Motion>

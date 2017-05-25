@@ -51,6 +51,7 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
     "font-awesome": "^4.7.0",
+    "glamor": "^2.20.25",
     "glob": "^7.1.1",
     "http-link-header": "^0.8.0",
     "immutable": "^3.8.1",
