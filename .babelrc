@@ -50,7 +50,8 @@
             "polyfill": false,
             "regenerator": false
           }
-        ]
+        ],
+        "styled-components"
       ]
     },
     "test": {

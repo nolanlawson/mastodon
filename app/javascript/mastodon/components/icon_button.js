@@ -2,7 +2,7 @@ import React from 'react';
 import Motion from 'react-motion/lib/Motion';
 import spring from 'react-motion/lib/spring';
 import PropTypes from 'prop-types';
-import { css } from 'glamor';
+import styled from 'styled-components';
 
 class IconButton extends React.PureComponent {
 
@@ -40,15 +40,6 @@ class IconButton extends React.PureComponent {
   render () {
     const classes = ['icon-button'];
 
-    classes.push(css({
-      fontSize: `${this.props.size}px`,
-      width: `${this.props.size * 1.28571429}px`,
-      height: `${this.props.size * 1.28571429}px`,
-      lineHeight: `${this.props.size}px`,
-      ...this.props.style,
-      ...(this.props.active ? this.props.activeStyle : {}),
-    }));
-
     if (this.props.active) {
       classes.push('active');
     }
@@ -69,17 +60,36 @@ class IconButton extends React.PureComponent {
       classes.push(this.props.className);
     }
 
+    const StyledButton = styled.button`
+      font-size: ${this.props.size}px;
+      width: ${this.props.size * 1.28571429}px;
+      height: ${this.props.size * 1.28571429}px;
+      line-height: ${this.props.size}px;
+    `;
+
+    const buttonStyles = {
+      ...this.props.style,
+      ...(this.props.active ? this.props.activeStyle : {}),
+    };
+
+    const createButton = ({ rotate }) => {
+      const StyledIcon = styled.i`transform: rotate(${rotate}deg)});`;
+      return (
+        <StyledButton
+          aria-label={this.props.title}
+          title={this.props.title}
+          className={classes.join(' ')}
+          onClick={this.handleClick}
+          style={buttonStyles}>
+        <StyledIcon className={`fa fa-fw fa-${this.props.icon}`}
+                    aria-hidden='true'/>
+      </StyledButton>
+      );
+    };
+
     return (
       <Motion defaultStyle={{ rotate: this.props.active ? -360 : 0 }} style={{ rotate: this.props.animate ? spring(this.props.active ? -360 : 0, { stiffness: 120, damping: 7 }) : 0 }}>
-        {({ rotate }) =>
-          <button
-            aria-label={this.props.title}
-            title={this.props.title}
-            className={classes.join(' ')}
-            onClick={this.handleClick}>
-          <i className={`fa fa-fw fa-${this.props.icon} ${css({transform: `rotate(${rotate}deg)`})}`} aria-hidden='true' />
-          </button>
-        }
+        {createButton}
       </Motion>
     );
   }

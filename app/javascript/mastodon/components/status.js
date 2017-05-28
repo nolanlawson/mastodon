@@ -14,7 +14,7 @@ import { FormattedMessage } from 'react-intl';
 import emojify from '../emoji';
 import escapeTextContentForBrowser from 'escape-html';
 import ImmutablePureComponent from 'react-immutable-pure-component';
-import { css } from 'glamor';
+import styled from 'styled-components';
 
 class Status extends ImmutablePureComponent {
 
@@ -115,12 +115,18 @@ class Status extends ImmutablePureComponent {
       return null;
     }
 
+
     if (isIntersecting === false && isHidden) {
+      const BlankStatus = styled.div`
+        height: ${this.height}px; 
+        opacity: 0;
+        overflow: hidden;
+      `;
       return (
-        <div ref={this.handleRef} data-id={status.get('id')} className={css({ height: `${this.height}px`, opacity: 0, overflow: 'hidden' })}>
+        <BlankStatus ref={this.handleRef} data-id={status.get('id')}>
           {status.getIn(['account', 'display_name']) || status.getIn(['account', 'username'])}
           {status.get('content')}
-        </div>
+        </BlankStatus>
       );
     }
 
