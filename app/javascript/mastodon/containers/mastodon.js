@@ -43,6 +43,8 @@ import Mutes from '../features/mutes';
 import Report from '../features/report';
 import { hydrateStore } from '../actions/store';
 import createStream from '../stream';
+import Styletron from 'styletron-client';
+import { StyletronProvider } from 'styletron-react';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import { getLocale } from '../locales';
 const { localeData, messages } = getLocale();
@@ -134,40 +136,42 @@ class Mastodon extends React.PureComponent {
     const { locale } = this.props;
 
     return (
-      <IntlProvider locale={locale} messages={messages}>
-        <Provider store={store}>
-          <Router history={browserHistory} render={applyRouterMiddleware(useScroll())}>
-            <Route path='/' component={UI}>
-              <IndexRedirect to='/getting-started' />
-              <Route path='getting-started' component={GettingStarted} />
-              <Route path='timelines/home' component={HomeTimeline} />
-              <Route path='timelines/public' component={PublicTimeline} />
-              <Route path='timelines/public/local' component={CommunityTimeline} />
-              <Route path='timelines/tag/:id' component={HashtagTimeline} />
+      <StyletronProvider styletron={new Styletron()}>
+        <IntlProvider locale={locale} messages={messages}>
+          <Provider store={store}>
+            <Router history={browserHistory} render={applyRouterMiddleware(useScroll())}>
+              <Route path='/' component={UI}>
+                <IndexRedirect to='/getting-started' />
+                <Route path='getting-started' component={GettingStarted} />
+                <Route path='timelines/home' component={HomeTimeline} />
+                <Route path='timelines/public' component={PublicTimeline} />
+                <Route path='timelines/public/local' component={CommunityTimeline} />
+                <Route path='timelines/tag/:id' component={HashtagTimeline} />
 
-              <Route path='notifications' component={Notifications} />
-              <Route path='favourites' component={FavouritedStatuses} />
+                <Route path='notifications' component={Notifications} />
+                <Route path='favourites' component={FavouritedStatuses} />
 
-              <Route path='statuses/new' component={Compose} />
-              <Route path='statuses/:statusId' component={Status} />
-              <Route path='statuses/:statusId/reblogs' component={Reblogs} />
-              <Route path='statuses/:statusId/favourites' component={Favourites} />
+                <Route path='statuses/new' component={Compose} />
+                <Route path='statuses/:statusId' component={Status} />
+                <Route path='statuses/:statusId/reblogs' component={Reblogs} />
+                <Route path='statuses/:statusId/favourites' component={Favourites} />
 
-              <Route path='accounts/:accountId' component={AccountTimeline} />
-              <Route path='accounts/:accountId/followers' component={Followers} />
-              <Route path='accounts/:accountId/following' component={Following} />
-              <Route path='accounts/:accountId/media' component={AccountGallery} />
+                <Route path='accounts/:accountId' component={AccountTimeline} />
+                <Route path='accounts/:accountId/followers' component={Followers} />
+                <Route path='accounts/:accountId/following' component={Following} />
+                <Route path='accounts/:accountId/media' component={AccountGallery} />
 
-              <Route path='follow_requests' component={FollowRequests} />
-              <Route path='blocks' component={Blocks} />
-              <Route path='mutes' component={Mutes} />
-              <Route path='report' component={Report} />
+                <Route path='follow_requests' component={FollowRequests} />
+                <Route path='blocks' component={Blocks} />
+                <Route path='mutes' component={Mutes} />
+                <Route path='report' component={Report} />
 
-              <Route path='*' component={GenericNotFound} />
-            </Route>
-          </Router>
-        </Provider>
-      </IntlProvider>
+                <Route path='*' component={GenericNotFound} />
+              </Route>
+            </Router>
+          </Provider>
+        </IntlProvider>
+      </StyletronProvider>
     );
   }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import Motion from 'react-motion/lib/Motion';
 import spring from 'react-motion/lib/spring';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { styled } from 'styletron-react';
 
 class IconButton extends React.PureComponent {
 
@@ -60,27 +60,23 @@ class IconButton extends React.PureComponent {
       classes.push(this.props.className);
     }
 
-    const StyledButton = styled.button`
-      font-size: ${this.props.size}px;
-      width: ${this.props.size * 1.28571429}px;
-      height: ${this.props.size * 1.28571429}px;
-      line-height: ${this.props.size}px;
-    `;
-
-    const buttonStyles = {
+    const StyledButton = styled('button', {
+      fontSize: `${this.props.size}px`,
+      width: `${this.props.size * 1.28571429}px`,
+      height: `${this.props.size * 1.28571429}px`,
+      lineHeight: `${this.props.size}px`,
       ...this.props.style,
       ...(this.props.active ? this.props.activeStyle : {}),
-    };
+    });
 
     const createButton = ({ rotate }) => {
-      const StyledIcon = styled.i`transform: rotate(${rotate}deg)});`;
+      const StyledIcon = styled('i', {transform: `rotate(${rotate}deg)`});
       return (
         <StyledButton
           aria-label={this.props.title}
           title={this.props.title}
           className={classes.join(' ')}
-          onClick={this.handleClick}
-          style={buttonStyles}>
+          onClick={this.handleClick}>
         <StyledIcon className={`fa fa-fw fa-${this.props.icon}`}
                     aria-hidden='true'/>
       </StyledButton>
