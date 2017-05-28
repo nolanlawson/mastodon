@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { css } from 'glamor';
 
 class Avatar extends React.PureComponent {
 
@@ -42,11 +43,13 @@ class Avatar extends React.PureComponent {
       className = className + ' account__avatar-inline';
     }
 
-    const style = {
-      ...this.props.style,
-      width: `${size}px`,
+    className += ' ' + css({ width: `${size}px`,
       height: `${size}px`,
       backgroundSize: `${size}px ${size}px`,
+    });
+
+    const style = {
+      ...this.props.style,
     };
 
     if (hovering || animate) {

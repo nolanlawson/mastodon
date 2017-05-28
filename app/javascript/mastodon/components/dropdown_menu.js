@@ -1,6 +1,7 @@
 import React from 'react';
 import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdown';
 import PropTypes from 'prop-types';
+import { css } from 'glamor';
 
 class DropdownMenu extends React.PureComponent {
 
@@ -80,7 +81,7 @@ class DropdownMenu extends React.PureComponent {
 
     return (
       <Dropdown ref={this.setRef} onShow={this.handleShow} onHide={this.handleHide}>
-        <DropdownTrigger className='icon-button' style={{ fontSize: `${size}px`, width: `${size}px`, lineHeight: `${size}px` }} aria-label={ariaLabel}>
+        <DropdownTrigger className={`icon-button ${css({ fontSize: `${size}px`, width: `${size}px`, lineHeight: `${size}px` })}`} aria-label={ariaLabel}>
           <i className={ `fa fa-fw fa-${icon} dropdown__icon` }  aria-hidden={true} />
         </DropdownTrigger>
 

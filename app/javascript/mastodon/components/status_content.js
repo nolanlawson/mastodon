@@ -6,6 +6,7 @@ import emojify from '../emoji';
 import { isRtl } from '../rtl';
 import { FormattedMessage } from 'react-intl';
 import Permalink from './permalink';
+import { css } from 'glamor';
 
 class StatusContent extends React.PureComponent {
 
@@ -121,7 +122,7 @@ class StatusContent extends React.PureComponent {
 
       return (
         <div className='status__content' ref={this.setRef} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp}>
-          <p style={{ marginBottom: hidden && status.get('mentions').isEmpty() ? '0px' : null }}>
+          <p className={css({ marginBottom: hidden && status.get('mentions').isEmpty() ? '0px' : null })}>
             <span dangerouslySetInnerHTML={spoilerContent} />
             {' '}
             <button tabIndex='0' className='status__content__spoiler-link' onClick={this.handleSpoilerClick}>{toggleText}</button>
@@ -129,15 +130,14 @@ class StatusContent extends React.PureComponent {
 
           {mentionsPlaceholder}
 
-          <div className={`status__content__text ${!hidden ? 'status__content__text--visible' : ''}`} style={directionStyle} dangerouslySetInnerHTML={content} />
+          <div className={`${css(directionStyle)} status__content__text ${!hidden ? 'status__content__text--visible' : ''}`} dangerouslySetInnerHTML={content} />
         </div>
       );
     } else if (this.props.onClick) {
       return (
         <div
           ref={this.setRef}
-          className='status__content'
-          style={directionStyle}
+          className={`status__content ${css(directionStyle)}`}
           onMouseDown={this.handleMouseDown}
           onMouseUp={this.handleMouseUp}
           dangerouslySetInnerHTML={content}
@@ -147,8 +147,7 @@ class StatusContent extends React.PureComponent {
       return (
         <div
           ref={this.setRef}
-          className='status__content status__content--no-action'
-          style={directionStyle}
+          className={`status__content status__content--no-action ${css(directionStyle)}`}
           dangerouslySetInnerHTML={content}
         />
       );
