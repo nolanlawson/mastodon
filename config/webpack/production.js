@@ -48,6 +48,15 @@ module.exports = merge(sharedConfig, {
     }),
     new OfflinePlugin({
       publicPath: publicPath, // sw.js must be served from the root to avoid scope issues
+      excludes: [
+        '**/.*',
+        '**/*.map',
+        '**/*.gz',
+        '**/*.eot',
+        '**/*.ttf',
+        '**/*.woff', // only cache woff2 fonts; browsers that support SW support this
+      ],
+      autoUpdate: 1000 * 60 * 60 * 6, // update every 6 hours
       ServiceWorker: {
         entry: path.join(__dirname, '../../app/javascript/mastodon/service_worker/entry.js'),
         cacheName: 'mastodon',
@@ -57,7 +66,7 @@ module.exports = merge(sharedConfig, {
         prefetchRequest: {
           credentials: 'include',
         },
-        minify: true,
+        minify: false,
       },
     }),
   ],
