@@ -57,6 +57,11 @@
       "plugins": [
         "transform-es2015-modules-commonjs"
       ]
-    }
+    },
+    "precompile": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ]
+    },
   }
 }
