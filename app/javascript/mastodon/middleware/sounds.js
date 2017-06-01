@@ -1,4 +1,7 @@
 const createAudio = sources => {
+  if (process.env.NODE_ENV === 'precompile') {
+    return null; // no Audio in React SSR
+  }
   const audio = new Audio();
   sources.forEach(({ type, src }) => {
     const source = document.createElement('source');
@@ -10,6 +13,9 @@ const createAudio = sources => {
 };
 
 const play = audio => {
+  if (process.env.NODE_ENV === 'precompile') {
+    return; // no Audio in React SSR
+  }
   if (!audio.paused) {
     audio.pause();
     audio.fastSeek(0);

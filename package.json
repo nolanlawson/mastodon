@@ -25,6 +25,7 @@
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-loader": "7.x",
+    "babel-plugin-dynamic-import-webpack": "^1.0.1",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-react-intl": "^2.3.1",
     "babel-plugin-react-transform": "^2.0.2",

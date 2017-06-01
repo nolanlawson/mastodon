@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "streaming_api_base_url": "wss://toot.cafe",
+    "access_token": "7be2df3de36a41808041a135d4e479f22621cb4f1b74f476dfb680a17ee2229b",
+    "locale": "en",
+    "domain": "toot.cafe",
+    "me": 1,
+    "admin": null,
+    "boost_modal": true,
+    "auto_play_gif": false
+  },
+  "compose": {
+    "me": 1,
+    "default_privacy": "unlisted"
+  },
+  "accounts": {
+    "1": {
+      "id": 1,
+      "username": "nolan",
+      "acct": "nolan",
+      "display_name": "Nolan☕️",
+      "locked": false,
+      "created_at": "2017-04-04T07:09:01.624Z",
+      "followers_count": 1614,
+      "following_count": 308,
+      "statuses_count": 3006,
+      "note": "<p>Nolan Lawson, admin of toot.cafe, JS/OSS/web guy at Microsoft. In parallel universes I am also <span class=\"h-card\"><a href=\"https://mastodon.social/@nolan\" class=\"u-url mention\">@<span>nolan</span></a></span> / <span class=\"h-card\"><a href=\"https://admins.town/@nolan\" class=\"u-url mention\">@<span>nolan</span></a></span> / <span class=\"h-card\"><a href=\"https://mastodon.xyz/@nolan\" class=\"u-url mention\">@<span>nolan</span></a></span></p>",
+      "url": "https://toot.cafe/@nolan",
+      "avatar": "https://toot.cafe/system/accounts/avatars/000/000/001/original/b7966426bcbd9b08.png?1493525154",
+      "avatar_static": "https://toot.cafe/system/accounts/avatars/000/000/001/original/b7966426bcbd9b08.png?1493525154",
+      "header": "https://toot.cafe/system/accounts/headers/000/000/001/original/missing.png?1493525154",
+      "header_static": "https://toot.cafe/system/accounts/headers/000/000/001/original/missing.png?1493525154"
+    }
+  },
+  "media_attachments": {
+    "accept_content_types": [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "video/webm",
+      "video/mp4"
+    ]
+  },
+  "settings": {
+    "onboarded": true,
+    "home": {
+      "shows": {
+        "reblog": true,
+        "reply": true
+      },
+      "regex": {
+        "body": ""
+      }
+    },
+    "notifications": {
+      "alerts": {
+        "follow": false,
+        "favourite": false,
+        "reblog": false,
+        "mention": false
+      },
+      "shows": {
+        "follow": true,
+        "favourite": true,
+        "reblog": true,
+        "mention": true
+      },
+      "sounds": {
+        "follow": false,
+        "favourite": false,
+        "reblog": false,
+        "mention": false
+      }
+    }
+  }
+}

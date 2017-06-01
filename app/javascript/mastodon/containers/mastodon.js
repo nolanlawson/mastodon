@@ -17,6 +17,7 @@ import applyRouterMiddleware from 'react-router/lib/applyRouterMiddleware';
 import useRouterHistory from 'react-router/lib/useRouterHistory';
 import Router from 'react-router/lib/Router';
 import Route from 'react-router/lib/Route';
+import RouterContext from 'react-router/lib/RouterContext';
 import IndexRedirect from 'react-router/lib/IndexRedirect';
 import IndexRoute from 'react-router/lib/IndexRoute';
 import { useScroll } from 'react-router-scroll';
@@ -49,12 +50,14 @@ const { localeData, messages } = getLocale();
 addLocaleData(localeData);
 
 const store = configureStore();
-const initialState = JSON.parse(document.getElementById("initial-state").textContent);
+const initialState = process.env.NODE_ENV === 'precompile' ?
+  require('./initial_state.json'):
+  JSON.parse(document.getElementById("initial-state").textContent);
 store.dispatch(hydrateStore(initialState));
 
-const browserHistory = useRouterHistory(createBrowserHistory)({
-  basename: '/web',
-});
+const browserHistory = process.env.NODE_ENV === 'precompile' ?
+  require('react-router/lib/browserHistory') :
+  useRouterHistory(createBrowserHistory)({ basename: '/web' });
 
 class Mastodon extends React.PureComponent {
 
@@ -133,38 +136,50 @@ class Mastodon extends React.PureComponent {
   render () {
     const { locale } = this.props;
 
+    const mainRoute = (<Route path='/' component={UI}>
+      <IndexRedirect to='/getting-started' />
+      <Route path='getting-started' component={GettingStarted} />
+      <Route path='timelines/home' component={HomeTimeline} />
+      <Route path='timelines/public' component={PublicTimeline} />
+      <Route path='timelines/public/local' component={CommunityTimeline} />
+      <Route path='timelines/tag/:id' component={HashtagTimeline} />
+
+      <Route path='notifications' component={Notifications} />
+      <Route path='favourites' component={FavouritedStatuses} />
+
+      <Route path='statuses/new' component={Compose} />
+      <Route path='statuses/:statusId' component={Status} />
+      <Route path='statuses/:statusId/reblogs' component={Reblogs} />
+      <Route path='statuses/:statusId/favourites' component={Favourites} />
+
+      <Route path='accounts/:accountId' component={AccountTimeline} />
+      <Route path='accounts/:accountId/followers' component={Followers} />
+      <Route path='accounts/:accountId/following' component={Following} />
+      <Route path='accounts/:accountId/media' component={AccountGallery} />
+
+      <Route path='follow_requests' component={FollowRequests} />
+      <Route path='blocks' component={Blocks} />
+      <Route path='mutes' component={Mutes} />
+      <Route path='report' component={Report} />
+
+      <Route path='*' component={GenericNotFound} />
+    </Route>);
+
+    if (process.env.NODE_ENV === 'precompile') {
+      return (
+        <IntlProvider locale={locale} messages={messages}>
+          <Provider store={store}>
+            <RouterContext location="/web/getting-started" routers={[mainRoute]} />
+          </Provider>
+        </IntlProvider>
+      );
+    }
+
     return (
       <IntlProvider locale={locale} messages={messages}>
         <Provider store={store}>
           <Router history={browserHistory} render={applyRouterMiddleware(useScroll())}>
-            <Route path='/' component={UI}>
-              <IndexRedirect to='/getting-started' />
-              <Route path='getting-started' component={GettingStarted} />
-              <Route path='timelines/home' component={HomeTimeline} />
-              <Route path='timelines/public' component={PublicTimeline} />
-              <Route path='timelines/public/local' component={CommunityTimeline} />
-              <Route path='timelines/tag/:id' component={HashtagTimeline} />
-
-              <Route path='notifications' component={Notifications} />
-              <Route path='favourites' component={FavouritedStatuses} />
-
-              <Route path='statuses/new' component={Compose} />
-              <Route path='statuses/:statusId' component={Status} />
-              <Route path='statuses/:statusId/reblogs' component={Reblogs} />
-              <Route path='statuses/:statusId/favourites' component={Favourites} />
-
-              <Route path='accounts/:accountId' component={AccountTimeline} />
-              <Route path='accounts/:accountId/followers' component={Followers} />
-              <Route path='accounts/:accountId/following' component={Following} />
-              <Route path='accounts/:accountId/media' component={AccountGallery} />
-
-              <Route path='follow_requests' component={FollowRequests} />
-              <Route path='blocks' component={Blocks} />
-              <Route path='mutes' component={Mutes} />
-              <Route path='report' component={Report} />
-
-              <Route path='*' component={GenericNotFound} />
-            </Route>
+            { mainRoute }
           </Router>
         </Provider>
       </IntlProvider>

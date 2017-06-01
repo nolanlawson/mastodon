@@ -1,7 +1,13 @@
 #!/usr/bin/env node
 
-import ReactDOMServer from 'react-dom/server';
-import app from '../app/javascript/mastodon/containers/mastodon';
+const React = require('React');
+const ReactDOMServer = require('react-dom/server');
+const messages = require('../app/javascript/mastodon/locales/en.json');
+const localeData = require('react-intl/locale-data/en.js');
+const { setLocale } = require('../app/javascript/mastodon/locales');
+setLocale(messages, localeData);
 
-const string = ReactDOMServer.renderToString(app);
+const Mastodon = require('../app/javascript/mastodon/containers/mastodon').default;
+
+const string = ReactDOMServer.renderToString(<Mastodon locale="en" />);
 console.log(string);
