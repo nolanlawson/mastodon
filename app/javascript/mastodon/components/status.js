@@ -59,6 +59,8 @@ class Status extends ImmutablePureComponent {
 
   updateOnStates = []
 
+  wasIntersecting = false
+
   shouldComponentUpdate (nextProps, nextState) {
     if (!nextState.isIntersecting && nextState.isHidden) {
       // It's only if we're not intersecting (i.e. offscreen) and isHidden is true
@@ -87,10 +89,11 @@ class Status extends ImmutablePureComponent {
     );
   }
 
-  handleIntersection = (entry) => {
-    // Edge 15 doesn't support isIntersecting, but we can infer it from intersectionRatio
+  handleIntersection = () => {
+    // Edge 15 doesn't support entry.isIntersecting, but we can infer it
     // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12156111/
-    const isIntersecting = entry.intersectionRatio > 0;
+    // https://github.com/WICG/IntersectionObserver/issues/69#issuecomment-230936773
+    const isIntersecting = this.wasIntersecting = !this.wasIntersecting;
     this.setState((prevState) => {
       if (prevState.isIntersecting && !isIntersecting) {
         scheduleIdleTask(this.hideIfNotIntersecting);
