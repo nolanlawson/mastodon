@@ -4,20 +4,24 @@ class FetchAtomService < BaseService
   def call(url)
     return if url.blank?
 
-    response = http_client.head(url)
+    response = Request.new(:head, url).perform
 
     Rails.logger.debug "Remote status HEAD request returned code #{response.code}"
 
-    response = http_client.get(url) if response.code == 405
+    response = Request.new(:get, url).perform if response.code == 405
 
     Rails.logger.debug "Remote status GET request returned code #{response.code}"
 
     return nil if response.code != 200
     return [url, fetch(url)] if response.mime_type == 'application/atom+xml'
-    return process_headers(url, response) unless response['Link'].blank?
+    return process_headers(url, response) if response['Link'].present?
     process_html(fetch(url))
   rescue OpenSSL::SSL::SSLError => e
     Rails.logger.debug "SSL error: #{e}"
+    nil
+  rescue HTTP::ConnectionError => e
+    Rails.logger.debug "HTTP ConnectionError: #{e}"
+    nil
   end
 
   private
@@ -43,10 +47,6 @@ class FetchAtomService < BaseService
   end
 
   def fetch(url)
-    http_client.get(url).to_s
-  end
-
-  def http_client
-    HTTP.timeout(:per_operation, write: 10, connect: 10, read: 10).follow
+    Request.new(:get, url).perform.to_s
   end
 end

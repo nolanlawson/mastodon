@@ -5,8 +5,10 @@ class InstancePresenter
     :closed_registrations_message,
     :site_contact_email,
     :open_registrations,
+    :site_title,
     :site_description,
     :site_extended_description,
+    :site_terms,
     to: Setting
   )
 
@@ -27,6 +29,6 @@ class InstancePresenter
   end
 
   def version_number
-    Mastodon::VERSION
+    Mastodon::Version
   end
 end
