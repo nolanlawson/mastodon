@@ -147,9 +147,7 @@ export default class ColumnsArea extends ImmutablePureComponent {
 
     if (singleColumn) {
       return columnIndex !== -1 ? (
-        <ReactSwipeableViews index={columnIndex} onChangeIndex={this.handleSwipe} onTransitionEnd={this.handleAnimationEnd} animateTransitions={shouldAnimate} springConfig={{ duration: '400ms', delay: '0s', easeFunction: 'ease' }} style={{ height: '100%' }}>
-          {links.map(this.renderView)}
-        </ReactSwipeableViews>
+        this.renderView(links[columnIndex], columnIndex)
       ) : <div className='columns-area'>{children}</div>;
     }
 
