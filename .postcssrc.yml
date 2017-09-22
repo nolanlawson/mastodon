@@ -3,7 +3,8 @@ plugins:
   precss: {}
   autoprefixer:
     browsers:
-      - last 2 versions
-      - IE >= 11
-      - iOS >= 9
+      - Chrome >= 59
+      - Firefox >= 54
+      - Edge >= 15
+      - Safari >= 10
   postcss-object-fit-images: {}
