@@ -7,7 +7,7 @@
         "loose": true,
         "modules": false,
         "targets": {
-          "browsers": ["last 2 versions", "IE >= 11", "iOS >= 9"]
+          "browsers": ["Chrome >= 59", "Firefox >= 54", "Edge >= 15", "Safari >= 10"]
         }
       }
     ]

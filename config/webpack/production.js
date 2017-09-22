@@ -1,8 +1,8 @@
 // Note: You must restart bin/webpack-dev-server for changes to take effect
 
-const webpack = require('webpack');
 const merge = require('webpack-merge');
 const CompressionPlugin = require('compression-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const sharedConfig = require('./shared.js');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const OfflinePlugin = require('offline-plugin');
@@ -19,16 +19,17 @@ module.exports = merge(sharedConfig, {
   stats: 'normal',
 
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
+    new UglifyJSPlugin({
+      parallel: true,
       sourceMap: true,
-      mangle: true,
-
-      compress: {
-        warnings: false,
-      },
-
-      output: {
-        comments: false,
+      uglifyOptions: {
+        mangle: true,
+        compress: {
+          warnings: false,
+        },
+        output: {
+          comments: false,
+        },
       },
     }),
     new CompressionPlugin({
