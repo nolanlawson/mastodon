@@ -76,6 +76,11 @@ module.exports = {
       resolve(settings.source_path),
       'node_modules',
     ],
+    alias: {
+      'react': 'preact-compat',
+      'react-dom': 'preact-compat',
+      'create-react-class': 'preact-compat/lib/create-react-class',
+    },
   },
 
   resolveLoader: {

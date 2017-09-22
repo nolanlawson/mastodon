@@ -45,7 +45,6 @@
             ]
           }
         ],
-        "transform-react-inline-elements",
         [
           "transform-runtime",
           {

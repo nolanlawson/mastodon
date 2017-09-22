@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170918125918) do
+ActiveRecord::Schema.define(version: 20180428000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,14 @@ ActiveRecord::Schema.define(version: 20170918125918) do
     t.index ["uri"], name: "index_accounts_on_uri"
     t.index ["url"], name: "index_accounts_on_url"
     t.index ["username", "domain"], name: "index_accounts_on_username_and_domain", unique: true
+  end
+
+  create_table "block_mutes", id: :serial, force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "target_account_id", null: false
+    t.boolean "block", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "blocks", force: :cascade do |t|
@@ -349,7 +357,7 @@ ActiveRecord::Schema.define(version: 20170918125918) do
 
   create_table "statuses_tags", id: false, force: :cascade do |t|
     t.bigint "status_id", null: false
-    t.bigint "tag_id", null: false
+    t.integer "tag_id", null: false
     t.index ["status_id"], name: "index_statuses_tags_on_status_id"
     t.index ["tag_id", "status_id"], name: "index_statuses_tags_on_tag_id_and_status_id", unique: true
   end

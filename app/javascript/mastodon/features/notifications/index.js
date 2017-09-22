@@ -96,7 +96,7 @@ export default class Notifications extends React.PureComponent {
     if (isLoading && this.scrollableContent) {
       scrollableContent = this.scrollableContent;
     } else if (notifications.size > 0 || hasMore) {
-      scrollableContent = notifications.map((item) => <NotificationContainer key={item.get('id')} notification={item} accountId={item.get('account')} />);
+      scrollableContent = notifications.map((item) => <NotificationContainer key={item.get('id')} notification={item} accountId={item.get('account')} />).toArray();
     } else {
       scrollableContent = null;
     }
