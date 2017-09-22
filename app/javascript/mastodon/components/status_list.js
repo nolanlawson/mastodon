@@ -32,7 +32,7 @@ export default class StatusList extends ImmutablePureComponent {
     const scrollableContent = (isLoading || statusIds.size > 0) ? (
       statusIds.map((statusId) => (
         <StatusContainer key={statusId} id={statusId} />
-      ))
+      )).toArray()
     ) : null;
 
     return (

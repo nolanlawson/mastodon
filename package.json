@@ -75,6 +75,8 @@
     "postcss-loader": "^2.0.6",
     "postcss-object-fit-images": "^1.1.2",
     "postcss-smart-import": "^0.7.5",
+    "preact": "^8.2.5",
+    "preact-compat": "^3.17.0",
     "precss": "^2.0.0",
     "prop-types": "^15.5.10",
     "punycode": "^2.1.0",
