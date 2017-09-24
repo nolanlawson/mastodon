@@ -1,5 +1,5 @@
 import api from '../api';
-import { emojiIndex } from 'emoji-mart';
+import { emojiIndex } from '../emoji_index_light';
 
 import {
   updateTimeline,
