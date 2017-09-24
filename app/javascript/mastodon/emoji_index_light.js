@@ -1,10 +1,16 @@
 // @preval
 // Force tree shaking on emoji-mart by exposing just a subset of its functionality
 
-const emojiIndex = require('emoji-mart').emojiIndex;
+const emojiMart = require('emoji-mart');
 
-// This fixes some encoding issues with preval
-emojiIndex.emojis = JSON.parse(JSON.stringify(emojiIndex.emojis));
-emojiIndex.emoticons = JSON.parse(JSON.stringify(emojiIndex.emoticons));
+const emojiIndex = {
+};
 
-module.exports.emojiIndex = emojiIndex;
+emojiIndex.search = emojiMart.emojiIndex.search.bind(emojiIndex);
+emojiIndex.emojis = JSON.parse(JSON.stringify(emojiMart.emojiIndex.emojis));
+emojiIndex.emoticons = JSON.parse(JSON.stringify(emojiMart.emojiIndex.emoticons));
+
+console.log('old', emojiMart.emojiIndex);
+console.log('new', emojiIndex);
+
+exports.emojiIndex = emojiIndex;
