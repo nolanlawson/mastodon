@@ -1,6 +1,6 @@
 import { List as ImmutableList } from 'immutable';
 import { STORE_HYDRATE } from '../actions/store';
-import { emojiIndex } from 'emoji-mart';
+import { emojiIndex } from '../emoji_index_light';
 import { buildCustomEmojis } from '../emoji';
 
 const initialState = ImmutableList();
