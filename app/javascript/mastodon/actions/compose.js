@@ -1,5 +1,5 @@
 import api from '../api';
-import { emojiIndex } from 'emoji-mart';
+import { search as emojiSearch } from '../emoji_index_light';
 
 import {
   updateTimeline,
@@ -212,7 +212,7 @@ export function clearComposeSuggestions() {
 export function fetchComposeSuggestions(token) {
   return (dispatch, getState) => {
     if (token[0] === ':') {
-      const results = emojiIndex.search(token.replace(':', ''), { maxResults: 3 });
+      const results = emojiSearch(token.replace(':', ''), { maxResults: 3 });
       dispatch(readyComposeSuggestionsEmojis(token, results));
       return;
     }
