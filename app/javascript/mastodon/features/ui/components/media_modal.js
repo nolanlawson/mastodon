@@ -90,7 +90,7 @@ export default class MediaModal extends ImmutablePureComponent {
       const height = image.getIn(['meta', 'original', 'height']) || null;
 
       const onRef = node => {
-        if (i === index && node && ) {
+        if (i === index && node) {
           that.setState({containerHeight: node.offsetHeight})
         }
       }
