@@ -25,13 +25,7 @@ export default class ImageLoader extends ImmutablePureComponent {
     error: false,
   }
 
-  static updateOnProps = [
-    'alt',
-    'src',
-    'previewSrc',
-    'width',
-    'height',
-  ]
+  updateOnProps = ['alt', 'src', 'previewSrc', 'width', 'height']
 
   removers = [];
 

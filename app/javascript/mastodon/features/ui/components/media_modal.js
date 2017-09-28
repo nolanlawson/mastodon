@@ -51,15 +51,11 @@ export default class MediaModal extends ImmutablePureComponent {
     }
   }
 
-  handleRef = (node) => {
-    console.log('ref', node);
-  }
-
   handleTransitionEnd = (e) => {
     console.log('transition end', e);
-    /*this.set({
-      slideHeight: this.props.children[this.getIndex()]
-    })*/
+    this.setState({
+      containerHeight: this.childNodes[this.getIndex()].offsetHeight,
+    })
   }
 
   componentDidMount () {
@@ -90,6 +86,8 @@ export default class MediaModal extends ImmutablePureComponent {
       const height = image.getIn(['meta', 'original', 'height']) || null;
 
       const onRef = node => {
+        that.childNodes = that.childNodes || Array(media.size);
+        that.childNodes[i] = node;
         if (i === index && node) {
           that.setState({containerHeight: node.offsetHeight})
         }
@@ -98,7 +96,7 @@ export default class MediaModal extends ImmutablePureComponent {
       if (image.get('type') === 'image') {
         return <ImageLoader onRef={onRef} previewSrc={image.get('preview_url')} src={image.get('url')} width={width} height={height} key={image.get('preview_url')} />;
       } else if (image.get('type') === 'gifv') {
-        return <ExtendedVideoPlayer src={image.get('url')} muted controls={false} width={width} height={height} key={image.get('preview_url')} />;
+        return <ExtendedVideoPlayer onRef={onRef} src={image.get('url')} muted controls={false} width={width} height={height} key={image.get('preview_url')} />;
       }
 
       return null;

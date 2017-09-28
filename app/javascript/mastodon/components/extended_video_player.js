@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePureComponent from 'react-immutable-pure-component';
 
-export default class ExtendedVideoPlayer extends React.PureComponent {
+export default class ExtendedVideoPlayer extends ImmutablePureComponent {
 
   static propTypes = {
     src: PropTypes.string.isRequired,
@@ -10,7 +11,10 @@ export default class ExtendedVideoPlayer extends React.PureComponent {
     time: PropTypes.number,
     controls: PropTypes.bool.isRequired,
     muted: PropTypes.bool.isRequired,
+    onRef: PropTypes.func,
   };
+
+  updateOnProps = ['src', 'width', 'height', 'time', 'controls', 'muted']
 
   handleLoadedData = () => {
     if (this.props.time) {
@@ -28,6 +32,7 @@ export default class ExtendedVideoPlayer extends React.PureComponent {
 
   setRef = (c) => {
     this.video = c;
+    this.props.onRef && this.props.onRef(c);
   }
 
   render () {
