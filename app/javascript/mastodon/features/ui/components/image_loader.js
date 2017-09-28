@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import ImmutablePureComponent from 'react-immutable-pure-component';
 
-export default class ImageLoader extends React.PureComponent {
+export default class ImageLoader extends ImmutablePureComponent {
 
   static propTypes = {
     alt: PropTypes.string,
@@ -10,6 +11,7 @@ export default class ImageLoader extends React.PureComponent {
     previewSrc: PropTypes.string.isRequired,
     width: PropTypes.number,
     height: PropTypes.number,
+    onRef: PropTypes.func,
   }
 
   static defaultProps = {
@@ -22,6 +24,14 @@ export default class ImageLoader extends React.PureComponent {
     loading: true,
     error: false,
   }
+
+  static updateOnProps = [
+    'alt',
+    'src',
+    'previewSrc',
+    'width',
+    'height',
+  ]
 
   removers = [];
 
@@ -118,7 +128,7 @@ export default class ImageLoader extends React.PureComponent {
   }
 
   render () {
-    const { alt, src, width, height } = this.props;
+    const { alt, src, width, height, onRef } = this.props;
     const { loading } = this.state;
 
     const className = classNames('image-loader', {
@@ -143,6 +153,7 @@ export default class ImageLoader extends React.PureComponent {
             src={src}
             width={width}
             height={height}
+            ref={onRef}
           />
         )}
       </div>

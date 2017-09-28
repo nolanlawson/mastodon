@@ -51,6 +51,10 @@ export default class MediaModal extends ImmutablePureComponent {
     }
   }
 
+  handleRef = (node) => {
+    console.log('ref', node);
+  }
+
   handleTransitionEnd = (e) => {
     console.log('transition end', e);
     /*this.set({
@@ -72,18 +76,27 @@ export default class MediaModal extends ImmutablePureComponent {
 
   render () {
     const { media, intl, onClose } = this.props;
+    const { containerHeight } = this.state || 0;
 
     const index = this.getIndex();
 
     const leftNav  = media.size > 1 && <button tabIndex='0' className='modal-container__nav modal-container__nav--left' onClick={this.handlePrevClick} aria-label={intl.formatMessage(messages.previous)}><i className='fa fa-fw fa-chevron-left' /></button>;
     const rightNav = media.size > 1 && <button tabIndex='0' className='modal-container__nav  modal-container__nav--right' onClick={this.handleNextClick} aria-label={intl.formatMessage(messages.next)}><i className='fa fa-fw fa-chevron-right' /></button>;
 
-    const content = media.map((image) => {
+    const that = this;
+
+    const content = media.map((image, i) => {
       const width  = image.getIn(['meta', 'original', 'width']) || null;
       const height = image.getIn(['meta', 'original', 'height']) || null;
 
+      const onRef = node => {
+        if (i === index && node && ) {
+          that.setState({containerHeight: node.offsetHeight})
+        }
+      }
+
       if (image.get('type') === 'image') {
-        return <ImageLoader previewSrc={image.get('preview_url')} src={image.get('url')} width={width} height={height} key={image.get('preview_url')} />;
+        return <ImageLoader onRef={onRef} previewSrc={image.get('preview_url')} src={image.get('url')} width={width} height={height} key={image.get('preview_url')} />;
       } else if (image.get('type') === 'gifv') {
         return <ExtendedVideoPlayer src={image.get('url')} muted controls={false} width={width} height={height} key={image.get('preview_url')} />;
       }
@@ -93,7 +106,7 @@ export default class MediaModal extends ImmutablePureComponent {
 
     const containerStyle = {
       alignItems: 'center',
-      height: `${media[0].getIn(['meta', 'original', 'height'])}px`,
+      height: `${containerHeight}px`,
     };
 
     return (
