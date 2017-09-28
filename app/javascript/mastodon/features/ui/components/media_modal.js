@@ -51,6 +51,13 @@ export default class MediaModal extends ImmutablePureComponent {
     }
   }
 
+  handleTransitionEnd = (e) => {
+    console.log('transition end', e);
+    /*this.set({
+      slideHeight: this.props.children[this.getIndex()]
+    })*/
+  }
+
   componentDidMount () {
     window.addEventListener('keyup', this.handleKeyUp, false);
   }
@@ -84,13 +91,18 @@ export default class MediaModal extends ImmutablePureComponent {
       return null;
     }).toArray();
 
+    const containerStyle = {
+      alignItems: 'center',
+      height: `${media[0].getIn(['meta', 'original', 'height'])}px`,
+    };
+
     return (
       <div className='modal-root__modal media-modal'>
         {leftNav}
 
         <div className='media-modal__content'>
           <IconButton className='media-modal__close' title={intl.formatMessage(messages.close)} icon='times' onClick={onClose} size={16} />
-          <ReactSwipeableViews onChangeIndex={this.handleSwipe} index={index} animateHeight>
+          <ReactSwipeableViews containerStyle={containerStyle} onChangeIndex={this.handleSwipe} index={index} onTransitionEnd={this.handleTransitionEnd}>
             {content}
           </ReactSwipeableViews>
         </div>
