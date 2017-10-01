@@ -29,7 +29,7 @@ development:
   compile: true
 
   dev_server:
-    host: localhost
+    host: 10.0.0.173
     port: 3035
     hmr: false
     https: false
