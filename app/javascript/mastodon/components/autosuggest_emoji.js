@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { unicodeMapping } from '../emojione_light';
+import { unicodeMapping } from '../features/emoji/emojione_light';
 
 const assetHost = process.env.CDN_HOST || '';
 

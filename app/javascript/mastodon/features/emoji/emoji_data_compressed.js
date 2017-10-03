@@ -1,10 +1,11 @@
 // @preval
 const data = require('emoji-mart/dist/data').default;
 const pick = require('lodash/pick');
+const values = require('lodash/values');
 
 const condensedEmojis = {};
 Object.keys(data.emojis).forEach(key => {
-  condensedEmojis[key] = pick(data.emojis[key], ['short_names', 'unified', 'search']);
+  condensedEmojis[key] = values(pick(data.emojis[key], ['short_names', 'unified', 'search']));
 });
 
 // JSON.parse/stringify is to emulate what @preval is doing and avoid any

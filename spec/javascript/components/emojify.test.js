@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import emojify from '../../../app/javascript/mastodon/emoji';
+import emojify from '../../../app/javascript/mastodon/features/emoji/emoji';
 
 describe('emojify', () => {
   it('ignores unknown shortcodes', () => {
