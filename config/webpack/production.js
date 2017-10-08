@@ -1,5 +1,6 @@
 // Note: You must restart bin/webpack-dev-server for changes to take effect
 
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 const CompressionPlugin = require('compression-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -19,6 +20,7 @@ module.exports = merge(sharedConfig, {
   stats: 'normal',
 
   plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new UglifyJSPlugin({
       parallel: true,
       sourceMap: true,
