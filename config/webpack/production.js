@@ -21,7 +21,7 @@ module.exports = merge(sharedConfig, {
 
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
-    new UglifyJSPlugin({
+    /*new UglifyJSPlugin({
       parallel: true,
       sourceMap: true,
       uglifyOptions: {
@@ -33,7 +33,7 @@ module.exports = merge(sharedConfig, {
           comments: false,
         },
       },
-    }),
+    }),*/
     new CompressionPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',
