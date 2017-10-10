@@ -1,2 +1,3 @@
 default: styles/application.scss
 "Toot Café": styles/tootcafe.scss
+win95: styles/win95.scss
