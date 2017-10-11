@@ -1,4 +1,5 @@
 default: styles/application.scss
-"Toot Café": styles/tootcafe.scss
-cybrespace: styles/custom.scss
-win95: styles/win95.scss
+"Toot Café": styles/tootcafe.scss     # source: https://github.com/tootcafe/mastodon
+cybrespace: styles/custom.scss        # source: https://github.com/cybrespace/mastodon
+win95: styles/win95.scss              # source: https://github.com/cybrespace/mastodon
+"Paris mon Amour": styles/paris.scss  # source: https://github.com/ashfurrow/mastodon
