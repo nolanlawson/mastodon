@@ -693,6 +693,7 @@ en:
   themes:
     default: freedom.horse
     mastodon_default_theme: Mastodon default
+    paris: Paris mon Amour by @ashfurrow@mastodon.technology
   time:
     formats:
       default: "%b %d, %Y, %H:%M"
