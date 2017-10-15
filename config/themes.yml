@@ -1,1 +1,4 @@
 default: styles/application.scss
+"Toot Café": styles/application.scss
+cybrespace: styles/application.scss
+win95: styles/application.scss
