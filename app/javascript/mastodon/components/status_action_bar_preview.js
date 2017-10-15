@@ -22,10 +22,10 @@ export default class StatusActionBarPreview extends React.Component {
 
     return (
       <div className='status__action-bar-preview'>
-        <i style={style} className='status__action-bar-preview-button fa fa-fw fa-reply' />
-        <i style={style} className='status__action-bar-preview-button fa fa-fw fa-retweet' />
-        <i style={style} className='status__action-bar-preview-button fa fa-fw fa-star' />
-        <i style={style} className='status__action-bar-preview-button fa fa-fw fa-ellipsis-h' />
+        <i style={style} className='status__action-bar-preview-button icon-button fa fa-fw fa-reply' />
+        <i style={style} className='status__action-bar-preview-button icon-button fa fa-fw fa-retweet' />
+        <i style={style} className='status__action-bar-preview-button icon-button fa fa-fw fa-star' />
+        <i style={style} className='status__action-bar-preview-button icon-button fa fa-fw fa-ellipsis-h' />
       </div>
     );
   }
