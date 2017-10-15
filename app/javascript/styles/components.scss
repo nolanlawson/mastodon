@@ -740,15 +740,19 @@
   }
 }
 
-.status__action-bar {
+.status__action-bar, status__action-bar-preview {
   align-items: center;
   display: flex;
   margin-top: 10px;
 }
 
-.status__action-bar-button {
+.status__action-bar-button, .status__action-bar-preview-button {
   float: left;
   margin-right: 18px;
+}
+
+.status__action-bar-preview-button {
+  display: inline-block;
 }
 
 .status__action-bar-dropdown {
