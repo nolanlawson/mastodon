@@ -128,10 +128,20 @@ export default class StatusActionBar extends ImmutablePureComponent {
 
     if (!rendered) {
       scheduleIdleTask(() => this.setState({ rendered: true }));
-      return (<StatusActionBarPreview />);
+      return (
+        <StatusActionBarPreview
+          reblogged={status.get('reblogged')}
+          favourited={status.get('favourited')}
+        />
+      );
     }
     /*if (!rendered) {
-      return (<StatusActionBarPreview />);
+      return (
+        <StatusActionBarPreview
+          reblogged={status.get('reblogged')}
+          favourited={status.get('favourited')}
+        />
+      );
     }*/
 
     const mutingConversation = status.get('muted');

@@ -755,6 +755,26 @@
   display: inline-block;
 }
 
+.status__action-bar-preview-button.fa-retweet {
+  background-position: 0 0;
+  height: 19px;
+  vertical-align: middle;
+  width: 22px;
+
+  &::before {
+    display: none !important;
+  }
+}
+
+.status__action-bar-preview-button.fa-retweet.pressed {
+  color: #2b90d9;
+  background-position: 0 100%;
+}
+
+.status__action-bar-preview-button.fa-star.pressed {
+  color: #ca8f04;
+}
+
 .status__action-bar-dropdown {
   float: left;
   height: 23.15px;
