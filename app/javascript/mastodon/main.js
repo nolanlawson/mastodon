@@ -3,11 +3,10 @@ import Mastodon from './containers/mastodon';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ready from './ready';
-
-const perf = require('./performance');
+import { start, stop } from './performance';
 
 function main() {
-  perf.start('main()');
+  start('main()');
 
   if (window.history && history.replaceState) {
     const { pathname, search, hash } = window.location;
@@ -24,10 +23,12 @@ function main() {
     ReactDOM.render(<Mastodon {...props} />, mountNode);
     if (process.env.NODE_ENV === 'production') {
       // avoid offline in dev mode because it's harder to debug
-      require('offline-plugin/runtime').install();
+      import('offline-plugin/runtime').then((offlinePlugin) => {
+        offlinePlugin.install();
+      });
       WebPushSubscription.register();
     }
-    perf.stop('main()');
+    stop('main()');
   });
 }
 
