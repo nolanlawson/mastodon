@@ -1,16 +1,6 @@
 {
   "presets": [
-    "react",
-    [
-      "env",
-      {
-        "loose": true,
-        "modules": false,
-        "targets": {
-          "browsers": ["last 2 versions", "IE >= 11", "iOS >= 9"]
-        }
-      }
-    ]
+    "react"
   ],
   "plugins": [
     "syntax-dynamic-import",
@@ -30,6 +20,18 @@
       "plugins": [
         "transform-react-jsx-source",
         "transform-react-jsx-self"
+      ],
+      "presets": [
+        [
+          "env",
+          {
+            "loose": true,
+            "modules": false,
+            "targets": {
+              "browsers": ["last 2 versions", "IE >= 11", "iOS >= 9"]
+            }
+          }
+        ]
       ]
     },
     "production": {
@@ -54,11 +56,51 @@
             "regenerator": false
           }
         ]
+      ],
+      "presets": [
+        [
+          "env",
+          {
+            "loose": true,
+            "modules": false,
+            "targets": {
+              "browsers": ["last 2 versions", "IE >= 11", "iOS >= 9"]
+            }
+          }
+        ]
       ]
     },
     "test": {
       "plugins": [
         "transform-es2015-modules-commonjs"
+      ],
+      "presets": [
+        [
+          "env",
+          {
+            "loose": true,
+            "modules": false,
+            "targets": {
+              "browsers": ["last 2 versions", "IE >= 11", "iOS >= 9"]
+            }
+          }
+        ]
+      ]
+    },
+    "server": {
+      "presets": [
+        [
+          "env",
+          {
+            "loose": true,
+            "targets": {
+              "node": "current"
+            }
+          }
+        ]
+      ],
+      "plugins": [
+        "dynamic-import-node"
       ]
     }
   }

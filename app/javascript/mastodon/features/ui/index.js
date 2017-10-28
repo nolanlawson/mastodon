@@ -74,6 +74,8 @@ const keyMap = {
   goToMuted: 'g m',
 };
 
+const getInnerWidth = typeof window !== 'undefined' ? () => window.innerWidth : () => 1600;
+
 @connect(mapStateToProps)
 @withRouter
 export default class UI extends React.Component {
@@ -91,7 +93,7 @@ export default class UI extends React.Component {
   };
 
   state = {
-    width: window.innerWidth,
+    width: getInnerWidth(),
     draggingOver: false,
   };
 
@@ -99,7 +101,7 @@ export default class UI extends React.Component {
     // The cached heights are no longer accurate, invalidate
     this.props.dispatch(clearHeight());
 
-    this.setState({ width: window.innerWidth });
+    this.setState({ width: getInnerWidth() });
   }, 500, {
     trailing: true,
   });
@@ -169,15 +171,17 @@ export default class UI extends React.Component {
   }
 
   componentWillMount () {
-    window.addEventListener('resize', this.handleResize, { passive: true });
-    document.addEventListener('dragenter', this.handleDragEnter, false);
-    document.addEventListener('dragover', this.handleDragOver, false);
-    document.addEventListener('drop', this.handleDrop, false);
-    document.addEventListener('dragleave', this.handleDragLeave, false);
-    document.addEventListener('dragend', this.handleDragEnd, false);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.handleResize, { passive: true });
+      document.addEventListener('dragenter', this.handleDragEnter, false);
+      document.addEventListener('dragover', this.handleDragOver, false);
+      document.addEventListener('drop', this.handleDrop, false);
+      document.addEventListener('dragleave', this.handleDragLeave, false);
+      document.addEventListener('dragend', this.handleDragEnd, false);
 
-    if ('serviceWorker' in  navigator) {
-      navigator.serviceWorker.addEventListener('message', this.handleServiceWorkerPostMessage);
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('message', this.handleServiceWorkerPostMessage);
+      }
     }
 
     this.props.dispatch(refreshHomeTimeline());

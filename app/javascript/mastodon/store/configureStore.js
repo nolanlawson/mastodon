@@ -11,5 +11,5 @@ export default function configureStore() {
     loadingBarMiddleware({ promiseTypeSuffixes: ['REQUEST', 'SUCCESS', 'FAIL'] }),
     errorsMiddleware(),
     soundsMiddleware()
-  ), window.devToolsExtension ? window.devToolsExtension() : f => f));
+  ), typeof window !== 'undefined' && window.devToolsExtension ? window.devToolsExtension() : f => f));
 };

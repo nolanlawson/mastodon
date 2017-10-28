@@ -1,4 +1,6 @@
-const createAudio = sources => {
+import { noop } from 'lodash';
+
+const createAudio = typeof Audio === 'undefined' ? noop : sources => {
   const audio = new Audio();
   sources.forEach(({ type, src }) => {
     const source = document.createElement('source');
@@ -9,7 +11,7 @@ const createAudio = sources => {
   return audio;
 };
 
-const play = audio => {
+const play = typeof Audio === 'undefined' ? noop : audio => {
   if (!audio.paused) {
     audio.pause();
     if (typeof audio.fastSeek === 'function') {

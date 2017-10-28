@@ -43,7 +43,7 @@ import emojify from '../features/emoji/emoji';
 import { Map as ImmutableMap, fromJS } from 'immutable';
 import escapeTextContentForBrowser from 'escape-html';
 
-const domParser = new DOMParser();
+const domParser = typeof DOMParser !== 'undefined' && new DOMParser();
 
 const normalizeStatus = (state, status) => {
   if (!status) {
