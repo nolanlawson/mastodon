@@ -1,14 +1,16 @@
-$ui-base-color: hotpink;
-$ui-secondary-color: crimson;
-$ui-primary-color: antiquewhite;
-$ui-highlight-color: pink;
+$ui-base-color: #ee60aa;
+$ui-base-lighter-color: #5c3e81;
+$ui-secondary-color: #ededed;
+$ui-primary-color: #111;
+$ui-highlight-color: #d400d4;
+$simple-background-color: #dadada;
 
-// $base-border-color:
-// $simple-background-color:
-// $primary-text-color:
-// $error-value-color:
-// $valid-value-color:
-// $base-shadow-color:
-// $base-overlay-background:
+$primary-text-color: #111;
+$valid-value-color: #111;
+$base-shadow-color: #111;
+$base-border-color: #111;
+$error-value-color: #111;
+$base-shadow-color: #111;
+$base-overlay-background: #111;
 
 @import 'application';
