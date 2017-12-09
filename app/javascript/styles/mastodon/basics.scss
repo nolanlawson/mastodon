@@ -38,7 +38,7 @@ body {
   }
 
   &.about-body {
-    background: url('../images/light-pink-glitter-wallpaper.jpg');
+    background: darken($ui-base-color, 8%);
     padding-bottom: 0;
   }
 
