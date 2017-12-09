@@ -1,2 +1,2 @@
 default: styles/freedomhorse.scss
-#mastodon: styles/application.scss
+mastodon_default_theme: styles/mastodon_default_theme.scss

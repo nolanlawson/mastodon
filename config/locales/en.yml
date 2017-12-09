@@ -692,7 +692,7 @@ en:
     title: "%{instance} Terms of Service and Privacy Policy"
   themes:
     default: freedom.horse
-    mastodon: Mastodon
+    mastodon_default_theme: Mastodon default
   time:
     formats:
       default: "%b %d, %Y, %H:%M"
