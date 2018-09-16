@@ -7,6 +7,7 @@
   = javascript_pack_tag 'about', integrity: true, crossorigin: 'anonymous'
   = render partial: 'shared/og'
 
+
 .landing-page.alternative
   .container
     .grid
@@ -36,7 +37,7 @@
       - if Setting.timeline_preview
         .column-2
           .landing-page__hero
-            = image_tag @instance_presenter.hero&.file&.url || @instance_presenter.thumbnail&.file&.url || asset_pack_path('preview.jpg'), alt: @instance_presenter.site_title
+            = image_tag asset_pack_path('horse-fren.png'), alt: @instance_presenter.site_title
 
           .landing-page__information
             .landing-page__short-description
@@ -68,7 +69,7 @@
       - else
         .column-2.non-preview
           .landing-page__hero
-            = image_tag @instance_presenter.hero&.file&.url || @instance_presenter.thumbnail&.file&.url || asset_pack_path('preview.jpg'), alt: @instance_presenter.site_title
+            = image_tag asset_pack_path('horse-fren.png'), alt: @instance_presenter.site_title
 
           .landing-page__information
             .landing-page__short-description
