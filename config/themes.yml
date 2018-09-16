@@ -1,3 +1,5 @@
-default: styles/application.scss
+default: styles/freedomhorse.scss
+mastodon_default_theme: styles/mastodon_default_theme.scss
+paris: styles/paris.scss         # via https://github.com/ashfurrow/mastodon/pull/1
 contrast: styles/contrast.scss
 mastodon-light: styles/mastodon-light.scss

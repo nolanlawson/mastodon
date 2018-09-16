@@ -623,6 +623,8 @@ $small-breakpoint: 960px;
 
   &__hero {
     margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
 
     img {
       display: block;

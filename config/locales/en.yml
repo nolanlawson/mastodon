@@ -1331,8 +1331,10 @@ en:
       <p>Originally adapted from the <a href="https://github.com/discourse/discourse">Discourse privacy policy</a>.</p>
     title: "%{instance} Terms of Service and Privacy Policy"
   themes:
+    default: freedom.horse
+    mastodon_default_theme: Mastodon default
+    paris: Paris mon Amour by @ashfurrow@mastodon.technology
     contrast: Mastodon (High contrast)
-    default: Mastodon (Dark)
     mastodon-light: Mastodon (Light)
   time:
     formats:
