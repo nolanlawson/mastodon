@@ -14,6 +14,12 @@ if (env === 'development') {
       babelrc: false,
       plugins: [
         'transform-react-remove-prop-types',
+        {
+          removeImport: true,
+          additionalLibraries: [
+            '../../utils/shared-props', // emoji-mart
+          ],
+        },
       ],
       cacheDirectory: env === 'development' ? false : resolve(__dirname, '..', '..', '..', 'tmp', 'cache', 'babel-loader-external'),
     },
